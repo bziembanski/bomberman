@@ -1,18 +1,20 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const port = 3001;
-
-app.use(bodyParser.json())
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+const io = require('socket.io')({
+    cors: {
+        origin: ['http://localhost:3000']
+    }
 });
 
-app.get('/', (req, res) => {
-    console.log('ktoś se wszedł sukces')
+io.on('connection', socket => {
+    console.log(`connect: ${socket.id}`);
+
+    socket.on('disconnect', () => {
+        console.log(`disconnect: ${socket.id}`);
+    });
+
+    socket.on('chat message', msg => {
+        console.log(msg);
+        io.emit('chat message', msg);
+    });
 });
 
-
-app.listen(port, () => {});
+io.listen(3001);
