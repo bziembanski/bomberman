@@ -1,0 +1,51 @@
+.root {
+    height: 100vh;
+    overflow-y: hidden;
+    background-color: #231F20;
+    padding: 1rem;
+    margin: 0;
+}
+
+.row {
+    margin: 2rem 0;
+}
+
+.main-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 !important;
+}
+
+.right-col {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0 !important;
+}
+
+.button {
+    background-repeat: no-repeat;
+    background-size: cover;   
+    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+    image-rendering: -moz-crisp-edges;          /* Firefox                        */
+    image-rendering: -o-crisp-edges;            /* Opera                          */
+    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
+    image-rendering: pixelated;                 /* Chrome                         */
+    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
+    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+    text-align: center;
+}
+
+.main-button {
+    background-image: url('./assets/yellow_button/yellow_button_100x25.png');
+    width: 450px;
+    height: 112.5px;
+    line-height: 112.5px;
+    font-size: 2rem;
+}
+
+.back-button {
+    background-image: url('./assets/back_button/back_button_40x25.png');
+    width: 120px;
+    height: 75px;
+}
