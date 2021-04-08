@@ -32,7 +32,7 @@ function RoomMenu() {
             </Row>
             <Row>
                 <Col xs={{ span: 6, offset: 3 }} className='main-col'>
-                    <NavLink to='/404'>
+                    <NavLink to='/select-room'>
                         <div className={'button' + ' ' + 'main-button'}>
                             find room
                         </div>

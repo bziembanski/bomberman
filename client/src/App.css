@@ -6,6 +6,10 @@
     margin: 0;
 }
 
+.col {
+    text-align: center;
+}
+
 .row {
     margin: 2rem 0;
 }
@@ -23,7 +27,7 @@
     padding: 0 !important;
 }
 
-.button {
+.button, input {
     background-repeat: no-repeat;
     background-size: cover;   
     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
@@ -34,6 +38,8 @@
     image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
     -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
     text-align: center;
+    width: 120px;
+    height: 75px;
 }
 
 .main-button {
@@ -44,8 +50,28 @@
     font-size: 2rem;
 }
 
+.input {
+    background-image: url('./assets/green_button/green_button_100x25.png');
+    width: 450px;
+    height: 112.5px;
+    line-height: 112.5px;
+    font-size: 2rem;
+    color: white;
+}
+
 .back-button {
     background-image: url('./assets/back_button/back_button_40x25.png');
-    width: 120px;
-    height: 75px;
+}
+
+.room-select-header {
+    font-size: 2rem;
+}
+
+.room {
+    margin: 0.5rem 0;
+    font-size: 1.4rem;
+}
+
+.selected {
+    background-color: #ffff00;
 }

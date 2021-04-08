@@ -3,15 +3,11 @@ import mute from '../assets/mute_button/mute_button_40x25.png';
 import unmute from '../assets/unmute_button/unmute_button_40x25.png';
 
 const MuteBtn = {
-    backgroundImage: `url(${mute})`,
-    width: '120px',
-    height: '75px'
+    backgroundImage: `url(${mute})`
 }
 
 const UnmuteBtn = {
-    backgroundImage: `url(${unmute})`,
-    width: '120px',
-    height: '75px'
+    backgroundImage: `url(${unmute})`
 }
 
 function MuteButton() {
