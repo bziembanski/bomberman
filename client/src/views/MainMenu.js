@@ -1,13 +1,14 @@
 import { Container, Col, Row } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
 import MuteButton from '../components/MuteButton';
+import { useHistory } from 'react-router-dom';
 
 function MainMenu() {
+    const history = useHistory();
 
     return (
         <Container fluid className='root'>
             <Row>
-                <Col xs={{ span:4 , offset: 1 }} style={{ padding: 0 }}>
+                <Col xs={{ span:4 , offset: 1 }}>
                     <MuteButton/>
                 </Col>
             </Row>
@@ -18,20 +19,16 @@ function MainMenu() {
             </Row>
             <Row>
                 <Col xs={{ span:6 , offset: 3 }} className='main-col'>
-                    <NavLink to='/room-menu'>
-                        <div className={'button' + ' ' + 'main-button'}>
-                            play game
-                        </div>
-                    </NavLink>
+                    <button className='main-button' onClick={() => history.push("/room-menu", { from: "/" })}>
+                        play game
+                    </button>
                 </Col>
             </Row>
             <Row>
                 <Col xs={{ span: 6, offset: 3 }} className='main-col'>
-                    <NavLink to='/instructions'>
-                        <div className={'button' + ' ' + 'main-button'}>
-                            instructions
-                        </div>
-                    </NavLink>
+                    <button className='main-button' onClick={() => history.push("/instructions", { from: "/" })}>
+                        instructions
+                    </button>
                 </Col>
             </Row>
         </Container>

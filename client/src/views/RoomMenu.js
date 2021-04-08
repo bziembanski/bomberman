@@ -1,21 +1,15 @@
 import { Container, Col, Row } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
-import MuteButton from '../components/MuteButton';
+import { useHistory } from 'react-router-dom';
+import TopButtons from '../components/TopButtons';
+
 
 function RoomMenu() {
+    const history = useHistory();
+
 
     return (
         <Container fluid className='root'>
-            <Row>
-                <Col xs={{ span: 4, offset: 1 }} style={{ padding: 0 }}>
-                    <MuteButton/>
-                </Col>
-                <Col xs={{ span: 4, offset: 2}} className='right-col'>
-                    <NavLink to='/'>
-                        <div className={'button' + ' ' + 'back-button'}/>
-                    </NavLink>
-                </Col>
-            </Row>
+            <TopButtons history={history}/>
             <Row>
                 <Col xs={{ span:10, offset: 1 }} style={{ backgroundColor: '#C4C4C4', height: '45vh' }}>
                     tu bedzie fajne logo benc
@@ -23,20 +17,16 @@ function RoomMenu() {
             </Row>
             <Row>
                 <Col xs={{ span:6 , offset: 3 }} className='main-col'>
-                    <NavLink to='/'>
-                        <div className={'button' + ' ' + 'main-button'}>
-                            create room
-                        </div>
-                    </NavLink>
+                    <button className='main-button' onClick={() => history.push("/create-room", { from: "/room-menu" })}>
+                        create room
+                    </button>
                 </Col>
             </Row>
             <Row>
                 <Col xs={{ span: 6, offset: 3 }} className='main-col'>
-                    <NavLink to='/select-room'>
-                        <div className={'button' + ' ' + 'main-button'}>
-                            find room
-                        </div>
-                    </NavLink>
+                    <button className='main-button' onClick={() => history.push("/select-room", { from: "/room-menu" })}>
+                        find room
+                    </button>
                 </Col>
             </Row>
         </Container>

@@ -16,14 +16,13 @@ function MuteButton() {
 
     const handleClick = () => {
         setIsMuted(!isMuted);
-        console.log('isMuted? ' + isMuted);
     }
 
     return (
-        <div
+        <button
             style={isMuted ? MuteBtn : UnmuteBtn} 
-            className="button"
-            onClick={()=>handleClick()}   
+            className='mute'
+            onClick={() => handleClick()}   
         />
     );
 }

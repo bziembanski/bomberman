@@ -1,25 +1,22 @@
 import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
-import MuteButton from '../components/MuteButton';
+import { useHistory } from 'react-router-dom';
+import TopButtons from '../components/TopButtons';
 
 
 function SelectRoom() {
-
+    const history = useHistory();
     const [selected, setSelected] = React.useState();
     const [name, setName] = React.useState('new_player');
 
-    const handleSelect = (id) => {
-        setSelected(id);
-    }
-
     const handleInput = (event) => {
-        if(event.target.value.length < 15)
+        if(event.target.value.length < 12)
             setName(event.target.value);
     }
 
     const handleSubmit = () => {
-
+        history.push("/room", { from: "/select-room" })
+        //TODO
     }
 
     const rooms = [
@@ -45,57 +42,48 @@ function SelectRoom() {
 
     return (
         <Container fluid className='root'>
+            <TopButtons history={history} />
             <Row>
-                <Col xs={{ span: 4, offset: 1 }} style={{ padding: 0 }}>
-                    <MuteButton/>
-                </Col>
-                <Col xs={{ span: 4, offset: 2}} className='right-col'>
-                    <NavLink to='/room-menu'>
-                        <div className={'button' + ' ' + 'back-button'}/>
-                    </NavLink>
-                </Col>
-            </Row>
-            <Row>
-                <Col xs={{ span:10, offset: 1 }} style={{ backgroundColor: '#C4C4C4', height: '65vh' }}>
-                    <Container fluid>
-                        <Row className='room-select-header'>
+                <Col xs={{ span:10, offset: 1 }} style={{ backgroundColor: '#C4C4C4', height: '62vh' }}>
+                    <Container fluid style={{textAlign: 'center'}}>
+                        <Row className='header'>
                             <Col>game id</Col>
                             <Col>host</Col>
                             <Col>players</Col>
                         </Row>
-                        { 
-                            rooms.map((room) => {
-                                return (
-                                    <Container 
-                                        fluid id={room.id} 
-                                        className={selected === room.id ? 'selected' : ''} 
-                                        onClick={() => handleSelect(room.id)}
-                                    >
-                                        <Row className='room'>
-                                            <Col>{room.id}</Col>
-                                            <Col>{room.host}</Col>
-                                            <Col>{room.numberOfPlayers}-{room.maxNumberOfPlayers}</Col>
-                                        </Row>
-                                    </Container>
-                                );
-                            })
-                        }
+                        <Container fluid style={{overflowY: 'auto', maxHeight: '50vh'}}>
+                            { 
+                                rooms.map((room) => {
+                                    return (
+                                        <Container 
+                                            fluid id={room.id} 
+                                            className={selected === room.id && 'selected'} 
+                                            onClick={() => setSelected(room.id)}
+                                        >
+                                            <Row className='room'>
+                                                <Col>{room.id}</Col>
+                                                <Col>{room.host}</Col>
+                                                <Col>{room.numberOfPlayers} - {room.maxNumberOfPlayers}</Col>
+                                            </Row>
+                                        </Container>
+                                    );
+                                })
+                            }
+                        </Container>
                     </Container>
                 </Col>
             </Row>
             <Row>
-                <Col xs={{span: 4, offset: 1}} style={{ padding: 0 }}>
-                    <NavLink to='/404'>
-                        <div className={'button' + ' ' + 'main-button'} onClick={handleSubmit}>
-                            join
-                        </div>
-                    </NavLink>
+                <Col xs={{span: 4, offset: 1}}>
+                    <button className='main-button' onClick={() => handleSubmit()}>
+                        join
+                    </button>
                 </Col>
                 <Col xs={{span: 4, offset: 2}} className='right-col'>
                     <input 
-                        className={'input'}
+                        className='input'
                         value={name}
-                        onChange={handleInput}
+                        onChange={(event) => handleInput(event)}
                     />
                 </Col>
             </Row>

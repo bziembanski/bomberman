@@ -6,28 +6,27 @@
     margin: 0;
 }
 
-.col {
-    text-align: center;
+[class*='col'] {
+    padding: 0 !important;
 }
 
 .row {
     margin: 2rem 0;
+    
 }
 
 .main-col {
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0 !important;
 }
 
 .right-col {
     display: flex;
     justify-content: flex-end;
-    padding: 0 !important;
 }
 
-.button, input {
+button, input, .select-number {
     background-repeat: no-repeat;
     background-size: cover;   
     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
@@ -38,40 +37,76 @@
     image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
     -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
     text-align: center;
+    outline: none;
+    border: none;
+}
+
+.mute, .back-button {
     width: 120px;
     height: 75px;
 }
 
-.main-button {
-    background-image: url('./assets/yellow_button/yellow_button_100x25.png');
+.main-button, .input, .select-number, .label, .red-bad-button{
     width: 450px;
     height: 112.5px;
     line-height: 112.5px;
     font-size: 2rem;
 }
 
-.input {
+button:hover {
+    color: #007bff;
+}
+
+.main-button {
+    background-image: url('./assets/yellow_button/yellow_button_100x25.png');
+}
+
+.red-bad-button {
+    background-image: url('./assets/red_button/red_button_100x25.png');
+}
+
+.input, .select-number{
     background-image: url('./assets/green_button/green_button_100x25.png');
-    width: 450px;
-    height: 112.5px;
-    line-height: 112.5px;
-    font-size: 2rem;
     color: white;
+}
+
+.label {
+    background-color: #C4C4C4;
+    text-align: center;
 }
 
 .back-button {
     background-image: url('./assets/back_button/back_button_40x25.png');
 }
 
-.room-select-header {
+.header {
     font-size: 2rem;
 }
 
-.room {
+.room, .player, .info {
     margin: 0.5rem 0;
     font-size: 1.4rem;
 }
 
 .selected {
-    background-color: #ffff00;
+    background-color: #ffff00 !important;
+}
+
+.accepted {
+    background-color: #00ff00 !important;
+}
+
+.option {
+    line-height: 50px;
+    padding: 0 1rem;
+    margin: 0 1.2rem;
+    background-color: #00000000;
+}
+
+.game-info, .players-info {
+    width: 450px;
+    background-color: #C4C4C4;
+    padding: 1rem 0 2rem 0;
+    margin: 10vh 0;
+    text-align: center;
 }
