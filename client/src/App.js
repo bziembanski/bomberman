@@ -1,8 +1,9 @@
 import './App.css';
+import Game from "./game/Game";
 
 function App() {
   return (
-      <h1>Hello world</h1>
+      <Game/>
   );
 }
 
