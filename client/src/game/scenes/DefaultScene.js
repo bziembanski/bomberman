@@ -1,9 +1,4 @@
 import Phaser from 'phaser'
-import dataURLtoBlob from "../functions/dataURLtoBlob";
-import BricksImg from '../../assets/bricks/bricks_50x50.png';
-import WallImg from '../../assets/wall/wall_50x50.png';
-import PlayerImg from '../../assets/player/player.png';
-import Tilemap from '../../assets/tilemap/tilemap.json';
 
 let player;
 let cursors;
@@ -14,10 +9,10 @@ export default class DefaultScene extends Phaser.Scene {
     }
 
     preload() {
-        this.load.image('bricks', dataURLtoBlob(BricksImg));
-        this.load.image('wall', dataURLtoBlob(WallImg));
-        this.load.spritesheet('player', dataURLtoBlob(PlayerImg), {frameWidth: 48, frameHeight: 48});
-        this.load.tilemapTiledJSON('tileMap', Tilemap);
+        this.load.image('bricks', 'assets/bricks_50x50.png');
+        this.load.image('wall', 'assets/wall_50x50.png');
+        this.load.spritesheet('player','assets/player/player.png', {frameWidth: 48, frameHeight: 48});
+        this.load.tilemapTiledJSON('tileMap', 'assets/tilemap/tilemap.json');
     }
 
     create() {
