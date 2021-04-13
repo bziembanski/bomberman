@@ -5,26 +5,26 @@ let cursors;
 
 export default class DefaultScene extends Phaser.Scene {
     constructor() {
-        super('DefaultScene-world')
+        super('DefaultScene-world');
     }
 
     preload() {
-        this.load.image('bricks', 'assets/bricks_50x50.png');
-        this.load.image('wall', 'assets/wall_50x50.png');
-        this.load.spritesheet('player','assets/player/player.png', {frameWidth: 48, frameHeight: 48});
-        this.load.tilemapTiledJSON('tileMap', 'assets/tilemap/tilemap.json');
+        this.load.image('bricks', '/assets/bricks_50x50.png');
+        this.load.image('wall', '/assets/wall_50x50.png');
+        this.load.spritesheet('player', '/assets/player/player.png', {frameWidth: 48, frameHeight: 48});
+        this.load.tilemapTiledJSON('tileMap', '/assets/tilemap/tilemap.json');
     }
 
     create() {
-        const map = this.make.tilemap({key: 'tileMap'})
+        const map = this.make.tilemap({key: 'tileMap'});
 
         // add the tileset image we are using
-        const wallsSet = map.addTilesetImage('Wall', 'wall')
-        const bricksSet = map.addTilesetImage('Bricks', 'bricks')
+        const wallsSet = map.addTilesetImage('Wall', 'wall');
+        const bricksSet = map.addTilesetImage('Bricks', 'bricks');
 
         // create the layers we want in the right order
-        const wallsLayer = map.createLayer('WallsLayer', wallsSet)
-        const bricksLayer = map.createLayer('BricksLayer', bricksSet)
+        const wallsLayer = map.createLayer('WallsLayer', wallsSet);
+        const bricksLayer = map.createLayer('BricksLayer', bricksSet);
 
 
         player = this.physics.add.sprite(600 - 24, 600 - 24, 'player').setScale(0.9).refreshBody();
@@ -64,6 +64,11 @@ export default class DefaultScene extends Phaser.Scene {
         bricksLayer.setCollisionByExclusion([-1]);
         this.physics.add.collider(player,wallsLayer);
         this.physics.add.collider(player,bricksLayer);
+
+        //temporary game resize, dont know if this is ok
+        let scale = 845/650
+        this.game.canvas.style.width=650 * scale + 'px'
+        this.game.canvas.style.height=650 * scale + 'px'
     }
 
     update() {
@@ -99,7 +104,7 @@ export default class DefaultScene extends Phaser.Scene {
         {
             player.setVelocityX(0);
             player.setVelocityY(0);
-            player.anims.stop()
+            player.anims.stop();
         }
     }
 }

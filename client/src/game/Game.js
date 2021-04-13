@@ -1,6 +1,6 @@
-import React,{Component} from 'react'
-import Phaser from 'phaser'
-import {IonPhaser} from '@ion-phaser/react'
+import React,{Component} from 'react';
+import Phaser from 'phaser';
+import {IonPhaser} from '@ion-phaser/react';
 import DefaultScene from "./scenes/DefaultScene";
 
 
@@ -18,13 +18,18 @@ class Game extends Component {
                     gravity: {y: 0}
                 }
             },
+            scale: {
+                //mode: Phaser.Scale.NONE,
+            },
+        
             scene: DefaultScene
         }
     }
     render() {
-        const { initialize, game } = this.state
+        const { initialize, game } = this.state;
+
         return (
-            <IonPhaser game={game} initialize={initialize} />
+            <IonPhaser game={game} initialize={initialize}/>
         )
     }
 }

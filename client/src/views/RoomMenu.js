@@ -3,16 +3,18 @@ import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
 
 
-function RoomMenu() {
+function RoomMenu(props) {
     const history = useHistory();
 
 
     return (
         <Container fluid className='root'>
-            <TopButtons history={history}/>
+            <TopButtons history={history} isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
             <Row>
-                <Col xs={{ span:10, offset: 1 }} style={{ backgroundColor: '#C4C4C4', height: '45vh' }}>
-                    tu bedzie fajne logo benc
+                <Col xs={{ span:10, offset: 1 }}>
+                    <div style={{ backgroundColor: '#C4C4C4', height: '45vh' }}>
+                        tu bedzie fajne logo benc
+                    </div>
                 </Col>
             </Row>
             <Row>

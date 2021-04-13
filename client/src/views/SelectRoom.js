@@ -4,7 +4,7 @@ import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
 
 
-function SelectRoom() {
+function SelectRoom(props) {
     const history = useHistory();
     const [selected, setSelected] = React.useState();
     const [name, setName] = React.useState('new_player');
@@ -15,7 +15,7 @@ function SelectRoom() {
     }
 
     const handleSubmit = () => {
-        history.push("/room", { from: "/select-room" })
+        history.push("/room/1", { from: "/select-room" })
         //TODO
     }
 
@@ -42,10 +42,10 @@ function SelectRoom() {
 
     return (
         <Container fluid className='root'>
-            <TopButtons history={history} />
+            <TopButtons history={history} isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
             <Row>
-                <Col xs={{ span:10, offset: 1 }} style={{ backgroundColor: '#C4C4C4', height: '62vh' }}>
-                    <Container fluid style={{textAlign: 'center'}}>
+                <Col xs={{ span:10, offset: 1 }} style={{justifyItems: 'center', alignSelf:'center'}}>
+                    <Container fluid style={{textAlign: 'center', backgroundColor: '#C4C4C4', height: '64vh' }}>
                         <Row className='header'>
                             <Col>game id</Col>
                             <Col>host</Col>
@@ -56,6 +56,7 @@ function SelectRoom() {
                                 rooms.map((room) => {
                                     return (
                                         <Container 
+                                            key={room.id}
                                             fluid id={room.id} 
                                             className={selected === room.id && 'selected'} 
                                             onClick={() => setSelected(room.id)}

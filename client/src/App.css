@@ -1,17 +1,14 @@
 .root {
     height: 100vh;
+    width: 100vw;
     overflow-y: hidden;
     background-color: #231F20;
-    padding: 1rem;
+    padding: 2rem;
     margin: 0;
 }
 
-[class*='col'] {
-    padding: 0 !important;
-}
-
 .row {
-    margin: 2rem 0;
+    margin: 0 0 2rem 0;
     
 }
 
@@ -47,7 +44,7 @@ button, input, .select-number {
 }
 
 .main-button, .input, .select-number, .label, .red-bad-button{
-    width: 450px;
+    width: 450px !important;
     height: 112.5px;
     line-height: 112.5px;
     font-size: 2rem;
@@ -81,6 +78,7 @@ button:hover {
 
 .header {
     font-size: 2rem;
+    padding-top: 1rem;
 }
 
 .room, .player, .info {
