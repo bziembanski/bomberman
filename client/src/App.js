@@ -3,6 +3,7 @@ import RoomMenu from './views/RoomMenu';
 import Instructions from './views/Instructions';
 import SelectRoom from './views/SelectRoom';
 import CreateRoom from './views/CreateRoom';
+import Game from "./game/Game";
 import Room from './views/Room';
 import './App.css';
 import {useEffect, useState} from 'react';
