@@ -1,18 +1,38 @@
-const express = require('express');
-const app = express();
-const bodyParser = require('body-parser');
-const port = 3001;
-
-app.use(bodyParser.json())
-app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
+const io = require('socket.io')({
+    cors: {
+        origin: ['http://localhost:3000']
+    }
 });
 
-app.get('/', (req, res) => {
-    console.log('ktoś se wszedł sukces')
+io.on('connection', socket => {
+    console.log(`connect: ${socket.id}`);
+
+    socket.on('join room', room => {
+        const clients = io.of("/").adapter.rooms.get(room);
+        if (clients && clients.size >= 4) {
+            console.log(`cannot join room ${room}, room is full: ${socket.id}`);
+            socket.emit(`full room`);
+            return;
+        }
+
+        socket.join(room);
+        socket.emit('joined room', room);
+        console.log(`joined room ${room} (${clients ? clients.size : 1} / 4): ${socket.id}`);
+
+        socket.on('chat message', msg => {
+            console.log(`sent \"${msg}\": ${socket.id}`);
+            io.to(room).emit('chat message', msg);
+        });
+
+        socket.on('leave room', () => {
+            console.log(`left room ${room}: ${socket.id}`);
+            socket.leave(room);
+        });
+    });
+
+    socket.on('disconnect', () => {
+        console.log(`disconnect: ${socket.id}`);
+    });
 });
 
-
-app.listen(port, () => {});
+io.listen(3001);
