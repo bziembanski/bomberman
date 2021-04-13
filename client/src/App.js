@@ -1,4 +1,3 @@
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import MainMenu from './views/MainMenu';
 import RoomMenu from './views/RoomMenu';
 import Instructions from './views/Instructions';
@@ -37,7 +36,7 @@ function RoomSelection() { //TODO()
     );
 }
 
-function Room() { //TODO()
+function __depracate__Room() { //TODO()
     let {id} = useParams();
 
     if (!(['1', '2'].includes(id))) {
