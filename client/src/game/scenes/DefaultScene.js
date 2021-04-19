@@ -11,23 +11,20 @@ export default class DefaultScene extends Phaser.Scene {
             if(player && player.oldPosition && (player.x !== player.oldPosition.x || player.y !== player.oldPosition.y || player.rotation !== player.oldPosition.rotation)){
                 this.socket.emit('playerMovement', {
                     x: player.x,
-                    y: player.y,
-                    rotation: player.rotation
+                    y: player.y
                 });
                 console.log('position');
             }
             if(player){
                 player.oldPosition = {
                     x: player.x,
-                    y: player.y,
-                    rotation: player.rotation
+                    y: player.y
                 };
             }
         }, 100);
         this.socket.on('playerMovement', playerPosition => {
             if(player){
                 player.setPosition(playerPosition.x, playerPosition.y);
-                player.setRotation(playerPosition.rotation);
             }
         });
     }
