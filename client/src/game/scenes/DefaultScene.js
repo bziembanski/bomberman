@@ -4,15 +4,39 @@ let player;
 let cursors;
 
 export default class DefaultScene extends Phaser.Scene {
-    constructor() {
-        super('DefaultScene-world')
+    constructor(_socket) {
+        super('DefaultScene-world');
+        this.socket = _socket;
+        setInterval(() => {
+            if(player && player.oldPosition && (player.x !== player.oldPosition.x || player.y !== player.oldPosition.y || player.rotation !== player.oldPosition.rotation)){
+                this.socket.emit('playerMovement', {
+                    x: player.x,
+                    y: player.y,
+                    rotation: player.rotation
+                });
+                console.log('position');
+            }
+            if(player){
+                player.oldPosition = {
+                    x: player.x,
+                    y: player.y,
+                    rotation: player.rotation
+                };
+            }
+        }, 100);
+        this.socket.on('playerMovement', playerPosition => {
+            if(player){
+                player.setPosition(playerPosition.x, playerPosition.y);
+                player.setRotation(playerPosition.rotation);
+            }
+        });
     }
 
     preload() {
-        this.load.image('bricks', 'assets/bricks_50x50.png');
-        this.load.image('wall', 'assets/wall_50x50.png');
-        this.load.spritesheet('player','assets/player/player.png', {frameWidth: 48, frameHeight: 48});
-        this.load.tilemapTiledJSON('tileMap', 'assets/tilemap/tilemap.json');
+        this.load.image('bricks', '/assets/bricks_50x50.png');
+        this.load.image('wall', '/assets/wall_50x50.png');
+        this.load.spritesheet('player','/assets/player/player.png', {frameWidth: 48, frameHeight: 48});
+        this.load.tilemapTiledJSON('tileMap', '/assets/tilemap/tilemap.json');
     }
 
     create() {
@@ -73,6 +97,7 @@ export default class DefaultScene extends Phaser.Scene {
             player.setVelocityY(0);
 
             player.anims.play('left', true);
+
         }
         else if (cursors.right.isDown)
         {

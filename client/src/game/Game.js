@@ -5,6 +5,9 @@ import DefaultScene from "./scenes/DefaultScene";
 
 
 class Game extends Component {
+    constructor(props) {
+        super(props);
+    }
     state = {
         initialize: true,
         game: {
@@ -18,7 +21,7 @@ class Game extends Component {
                     gravity: {y: 0}
                 }
             },
-            scene: DefaultScene
+            scene: new DefaultScene(this.props.socket)
         }
     }
     render() {

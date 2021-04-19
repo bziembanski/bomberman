@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
-import { useHistory } from 'react-router-dom';
+import {NavLink, useHistory} from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
 
 
@@ -95,8 +95,9 @@ function Room() {
             <Row>
                 <Col xs={{span: 4, offset: 1}}>
                     <button className='main-button' onClick={() => handleSubmit()}>
+
                         {
-                            isHost ? 'start' : 'ready'
+                            isHost ? <NavLink to={`/game/${gameInfo.id}`}>start</NavLink> : 'ready'
                         }
                     </button>
                 </Col>

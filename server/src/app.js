@@ -30,6 +30,14 @@ io.on('connection', socket => {
         });
     });
 
+    socket.on('playerMovement', playerPosition => {
+        console.log(playerPosition);
+        socket.broadcast.emit('playerMovement', playerPosition);
+    });
+
+
+
+
     socket.on('disconnect', () => {
         console.log(`disconnect: ${socket.id}`);
     });

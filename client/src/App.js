@@ -94,6 +94,9 @@ function App() {
                 <Route path ='/select-room' component={SelectRoom}/>
                 <Route path ='/create-room' component={CreateRoom}/>
                 <Route path ='/room/:id' component={Room}/>
+                <Route path ='/game/:id'>
+                    <Game socket={socket}/>
+                </Route>
             </Switch>
         </Router>
     );

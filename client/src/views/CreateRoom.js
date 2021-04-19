@@ -16,7 +16,7 @@ function CreateRoom() {
 
     const handleSubmit = () => {
         //TODO
-        history.push("/room", { from: "/create-room" })
+        history.push("/room/1", { from: "/create-room" })
     }
 
 
