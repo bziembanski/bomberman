@@ -1,10 +1,10 @@
 import React from 'react';
-import { Container, Col, Row, Button} from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
 
 
-function CreateRoom() {
+function CreateRoom(props) {
     const history = useHistory();
     const [name, setName] = React.useState('new_player');
     const [numberOfPlayers, setNumberOfPlayers] = React.useState();
@@ -16,14 +16,14 @@ function CreateRoom() {
 
     const handleSubmit = () => {
         //TODO
-        history.push("/room", { from: "/create-room" })
+        history.push("/room/1", { from: "/create-room" })
     }
 
 
     return (
         <Container fluid className='root'>
-            <TopButtons history={history}/>
-            <Row style={{paddingTop: '6rem'}}>
+            <TopButtons history={history} isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
+            <Row style={{ paddingTop: '6rem' }}>
                 <Col xs={{ span:4, offset: 2 }}>
                     <div className='label'>
                         your name
@@ -37,7 +37,7 @@ function CreateRoom() {
                     />
                 </Col>
             </Row>
-            <Row style={{paddingTop: '2rem'}}>
+            <Row style={{ paddingTop: '2rem' }}>
                 <Col xs={{ span:4, offset: 2 }}>
                     <div className='label'>
                         players
@@ -51,7 +51,7 @@ function CreateRoom() {
                     </div>
                 </Col>
             </Row>
-            <Row style={{paddingTop: '5rem'}}>
+            <Row style={{ paddingTop: '5rem' }}>
                 <Col xs={{ span: 6, offset: 3 }} className='main-col'>
                     <button className='main-button' onClick={() => handleSubmit()}>
                         create

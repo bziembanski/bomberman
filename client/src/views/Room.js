@@ -8,12 +8,16 @@ const Ready = {
     backgroundColor: '#00ff00'
 }
 
-function Room() {
+function Room(props) {
     const history = useHistory();
     const [selected, setSelected] = React.useState();
     const [isHost, setIsHost] = React.useState(true);
 
     const handleSubmit = () => {
+        if(isHost)
+            history.push("/game/1", { from: "/room/1" });
+            
+        //TODO
     }
 
     const handleSelect = (playerName) => {
@@ -48,7 +52,7 @@ function Room() {
 
     return (
         <Container fluid className='root'>
-            <TopButtons history={history}/>
+            <TopButtons history={history} isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
             <Row>
                 <Col xs={{span: 4, offset: 1}}>
                     <Container bsPrefix='game-info'>

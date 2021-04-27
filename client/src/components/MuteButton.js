@@ -10,19 +10,13 @@ const UnmuteBtn = {
     backgroundImage: `url(${unmute})`
 }
 
-function MuteButton() {
-
-    const [isMuted, setIsMuted] = React.useState(false);
-
-    const handleClick = () => {
-        setIsMuted(!isMuted);
-    }
+function MuteButton(props) {
 
     return (
         <button
-            style={isMuted ? MuteBtn : UnmuteBtn} 
+            style={props.isMuted ? MuteBtn : UnmuteBtn} 
             className='mute'
-            onClick={() => handleClick()}   
+            onClick={() => props.setIsMuted(!props.isMuted)}   
         />
     );
 }

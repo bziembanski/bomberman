@@ -1,13 +1,14 @@
+import React from 'react';
 import MainMenu from './views/MainMenu';
 import RoomMenu from './views/RoomMenu';
 import Instructions from './views/Instructions';
 import SelectRoom from './views/SelectRoom';
 import CreateRoom from './views/CreateRoom';
-import Game from "./game/Game";
+import GameView from './views/GameView';
 import Room from './views/Room';
 import './App.css';
-import {useEffect, useState} from 'react';
-import {BrowserRouter as Router, Route, Switch, useHistory, useParams} from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Switch, useHistory, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 
 const socket = io('localhost:3001');
@@ -85,15 +86,18 @@ function __depracate__Room() { //TODO()
 }
 
 function App() {
+    const [isMuted, setIsMuted] = React.useState(false);
+
     return (
         <Router>
             <Switch>
-                <Route exact path='/' component={MainMenu}/>
-                <Route path ='/room-menu' component={RoomMenu}/>
-                <Route path ='/instructions' component={Instructions}/>
-                <Route path ='/select-room' component={SelectRoom}/>
-                <Route path ='/create-room' component={CreateRoom}/>
-                <Route path ='/room/:id' component={Room}/>
+                <Route exact path='/' render={(props) => ( <MainMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
+                <Route path ='/room-menu' render={(props) => ( <RoomMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
+                <Route path ='/instructions' render={(props) => ( <Instructions {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
+                <Route path ='/select-room' render={(props) => ( <SelectRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
+                <Route path ='/create-room' render={(props) => ( <CreateRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
+                <Route path ='/room' render={(props) => ( <Room {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/> {/* uber stupid, just temporary */}
+                <Route path ='/game' render={(props) => ( <GameView {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/> {/* uber stupid, just temporary */}
             </Switch>
         </Router>
     );
