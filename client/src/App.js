@@ -10,7 +10,7 @@ import './App.css';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, useHistory, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
-import ReactAudioPlayer from 'react-audio-player';
+
 
 const socket = io('localhost:3001');
 
