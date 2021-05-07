@@ -88,7 +88,7 @@ function __depracate__Room() { //TODO()
 
 const useAudio = url => {
     const [audio] = useState(new Audio(url));
-    const [playing, setPlaying] = useState(true);
+    const [playing, setPlaying] = useState(false);
     audio.loop = true;
   
     const toggle = () => setPlaying(!playing);
