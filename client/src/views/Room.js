@@ -1,8 +1,7 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
-
 
 const Ready = {
     backgroundColor: '#00ff00'
@@ -12,17 +11,19 @@ function Room(props) {
     const history = useHistory();
     const [selected, setSelected] = React.useState();
     const [isHost, setIsHost] = React.useState(true);
+    const socket = props.socket;
 
     const handleSubmit = () => {
-        if(isHost)
-            history.push("/game/1", { from: "/room/1" });
-            
+        if (isHost) {
+            history.push("/game/1", {from: "/room/1"});
+        }
         //TODO
     }
 
     const handleSelect = (playerName) => {
-        if(playerName !== gameInfo.host)
+        if(playerName !== gameInfo.host) {
             setSelected(playerName);
+        }
     }
 
     let gameInfo = {

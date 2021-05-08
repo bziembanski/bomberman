@@ -91,13 +91,13 @@ function App() {
     return (
         <Router>
             <Switch>
-                <Route exact path='/' render={(props) => ( <MainMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/room-menu' render={(props) => ( <RoomMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/instructions' render={(props) => ( <Instructions {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/select-room' render={(props) => ( <SelectRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/create-room' render={(props) => ( <CreateRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/room' render={(props) => ( <Room {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/> {/* uber stupid, just temporary */}
-                <Route path ='/game' render={(props) => ( <GameView {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/> {/* uber stupid, just temporary */}
+                <Route exact path='/' render={(props) => ( <MainMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/room-menu' render={(props) => ( <RoomMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/instructions' render={(props) => ( <Instructions {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/select-room' render={(props) => ( <SelectRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/create-room' render={(props) => ( <CreateRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/room' render={(props) => ( <Room {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )} /> {/* uber stupid, just temporary */}
+                <Route path ='/game' render={(props) => ( <GameView {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/> {/* uber stupid, just temporary */}
             </Switch>
         </Router>
     );
