@@ -95,7 +95,7 @@ export default class DefaultScene extends Phaser.Scene {
         this.load.image('wall', '/assets/wall_50x50.png');
         this.load.spritesheet('player', '/assets/player/player.png', {frameWidth: 48, frameHeight: 48});
         this.load.tilemapTiledJSON('tileMap', '/assets/tilemap/tilemap.json');
-        this.load.spritesheet('bomb', '/assets/bomb.png', {frameWidth: 50, frameHeight: 50});
+        this.load.spritesheet('bomb', '/assets/bomba.png', {frameWidth: 50, frameHeight: 50});
         this.load.image('explosion', '/assets/explosion.png');
     }
 
@@ -152,8 +152,8 @@ export default class DefaultScene extends Phaser.Scene {
         //bombs animations
         this.anims.create({
             key: 'bombTicking',
-            frames: this.anims.generateFrameNumbers('bomb', {frames: [0, 0]}),
-            frameRate: 1,
+            frames: this.anims.generateFrameNumbers('bomb', {frames: [0,1,2,3,4,5,6,7,8]}),
+            frameRate: 5,
             repeat: 0,
             hideOnComplete: true
         });
@@ -198,7 +198,7 @@ export default class DefaultScene extends Phaser.Scene {
             const bombX = Math.ceil(player.x / tileSize) * tileSize - tileSize / 2;
             const bombY = Math.ceil(player.y / tileSize) * tileSize - tileSize / 2;
 
-            let bomb = this.physics.add.sprite(bombX, bombY, 'bomb').setScale(0.5);
+            let bomb = this.physics.add.sprite(bombX, bombY, 'bomb');
             bomb.anims.play('bombTicking', true);
             playerBombsCount++;
 
