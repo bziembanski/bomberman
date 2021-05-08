@@ -25,6 +25,10 @@ function GameView(props) {
            setTimer(timer);
         });
     }, [timer]);
+    function timerClick(){
+        socket.emit("timer", "");
+        console.log("click");
+    }
 
     return (
         <Container fluid className='root'>
@@ -35,7 +39,7 @@ function GameView(props) {
                 <Col xs={{span: 3, offset: 1}}>
                     <Row>
                         <Col xs={8}>
-                            <div style={{ backgroundColor: '#C4C4C4', height: '75px'}}>
+                            <div onClick={timerClick} style={{ backgroundColor: '#C4C4C4', height: '75px'}}>
                                 <div style={{fontSize:25, height:"100%", display:"flex", flexDirection:"column", margin:"auto", textAlign:"center", justifyContent:"center"}}>
                                     {timer}
                                 </div>
