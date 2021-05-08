@@ -3,7 +3,10 @@ const io = require('socket.io')({
         origin: ['http://localhost:3000']
     }
 });
-
+const timeLimit = 300.0;
+let time = timeLimit;
+const old = new Date().getTime();
+let interval;
 io.on('connection', socket => {
     console.log(`connect: ${socket.id}`);
 
@@ -29,6 +32,20 @@ io.on('connection', socket => {
             socket.leave(room);
         });
     });
+
+    if(!interval) {
+        console.log("hello");
+        interval = setInterval(() => {
+            const newer = new Date().getTime();
+            time = timeLimit - (newer - old) / 1000
+            if (parseFloat(time) <= 0) {
+                console.log("elo")
+                clearInterval(interval);
+            }
+            io.emit("timer", time);
+        }, 100);
+    }
+
 
     socket.on('disconnect', () => {
         console.log(`disconnect: ${socket.id}`);

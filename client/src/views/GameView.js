@@ -3,11 +3,10 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory, Link } from 'react-router-dom';
 import MuteButton from '../components/MuteButton';
 import Game from '../game/Game';
-import Timer from "../components/Timer";
 
 
 
-function time(timer, setTimer){
+function __dev_test_time(timer, setTimer){
     let interval = setInterval(() => {
         setTimer(timer => (timer - 0.1).toFixed(1));
     }, 100);
@@ -19,10 +18,12 @@ function time(timer, setTimer){
 
 function GameView(props) {
     const history = useHistory();
-    const [timer, setTimer] = useState("3.0");
+    const [timer, setTimer] = useState("300.0");
+    const socket = props.socket;
     useEffect(() => {
-        let interval = time(timer, setTimer)
-        return () => clearInterval(interval);
+        socket.on("timer", timer => {
+           setTimer(timer.toFixed(1));
+        });
     }, [timer]);
 
     return (
@@ -35,7 +36,9 @@ function GameView(props) {
                     <Row>
                         <Col xs={8}>
                             <div style={{ backgroundColor: '#C4C4C4', height: '75px'}}>
-                                <Timer value={timer}/>
+                                <div style={{fontSize:25, height:"100%", display:"flex", flexDirection:"column", margin:"auto", textAlign:"center", justifyContent:"center"}}>
+                                    {timer}
+                                </div>
                             </div>
                         </Col>
                         <Col xs={4} className="right-col">

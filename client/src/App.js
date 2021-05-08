@@ -116,7 +116,7 @@ function App() {
                 <Route path='/select-room' render={(props) => (<SelectRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
                 <Route path='/create-room' render={(props) => (<CreateRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
                 <Route path='/room' render={(props) => (<Room {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} /> {/* uber stupid, just temporary */}
-                <Route path='/game' render={(props) => (<GameView {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} /> {/* uber stupid, just temporary */}
+                <Route path='/game' render={(props) => (<GameView {...props} socket={socket} isMuted={isMuted} setIsMuted={setIsMuted} />)} /> {/* uber stupid, just temporary */}
             </Switch>
         </Router>
     );
