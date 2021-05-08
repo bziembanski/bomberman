@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 
 const tileSize = 52;
 const explosionDelay = 1000;
+const upgradeDropChance = 10;
 
 let player;
 let cursors;
@@ -10,7 +11,14 @@ let playerBombsCount = 0;
 let map;
 let wallsLayer;
 let bricksLayer;
-
+let upgrades;
+let playerUpgrades = {
+    bomb: 0,
+    explosion: 0,
+    kick: 0,
+    speed: 0,
+    throw: 0
+};
 
 function bombExplosion(bombX, bombY, scene) {
     const explosions = [];
@@ -28,6 +36,7 @@ function bombExplosion(bombX, bombY, scene) {
         let bricks = bricksLayer.getTileAt(X - step, Y);
         if (bricks !== null) {
             map.removeTileAt(X - step, Y, true, true, "BricksLayer");
+            createUpgrade((X - step) * tileSize + tileSize/2 - 1, Y * tileSize + tileSize/2 + 1);
             break;
         }
 
@@ -42,6 +51,7 @@ function bombExplosion(bombX, bombY, scene) {
         let bricks = bricksLayer.getTileAt(X + step, Y);
         if (bricks !== null) {
             map.removeTileAt(X + step, Y, true, true, "BricksLayer");
+            createUpgrade((X + step) * tileSize + tileSize/2 - 1, Y * tileSize + tileSize/2 + 1);
             break;
         }
 
@@ -56,6 +66,7 @@ function bombExplosion(bombX, bombY, scene) {
         let bricks = bricksLayer.getTileAt(X, Y - step);
         if (bricks !== null) {
             map.removeTileAt(X, Y - step, true, true, "BricksLayer");
+            createUpgrade(X * tileSize + tileSize/2 - 1, (Y - step) * tileSize + tileSize/2 + 1);
             break;
         }
 
@@ -70,6 +81,7 @@ function bombExplosion(bombX, bombY, scene) {
         let bricks = bricksLayer.getTileAt(X, Y + step);
         if (bricks !== null) {
             map.removeTileAt(X, Y + step, true, true, "BricksLayer");
+            createUpgrade(X * tileSize + tileSize/2 -1, (Y + step) * tileSize + tileSize/2 + 1);
             break;
         }
 
@@ -84,6 +96,54 @@ function bombExplosion(bombX, bombY, scene) {
     }, explosionDelay, explosions);
 }
 
+function createUpgrade(upgradeX, upgradeY) {
+    //Random number
+    const random = Phaser.Math.Between(0, upgradeDropChance);
+    switch (random) {
+        case 0:
+            upgrades.create(upgradeX, upgradeY, 'bombU');
+            break;
+        case 1:
+            upgrades.create(upgradeX, upgradeY, 'explosionU');
+            break;
+        case 2:
+            upgrades.create(upgradeX, upgradeY, 'kickU');
+            break;
+        case 3:
+            upgrades.create(upgradeX, upgradeY, 'speedU');
+            break;
+        case 4:
+            upgrades.create(upgradeX, upgradeY, 'throwU');
+            break;
+        case 5:
+        case 6:
+        case 7:
+        case 8:
+        case 9:
+            break;
+    }
+}
+
+function collectUpgrade(player, upgrade){
+    upgrade.disableBody(true, true);
+    switch (upgrade.texture.key){
+        case "bombU":
+            playerUpgrades.bomb = playerUpgrades.bomb + 1;
+            break;
+        case "explosionU":
+            playerUpgrades.explosion = playerUpgrades.explosion + 1;
+            break;
+        case "kickU":
+            playerUpgrades.kick = playerUpgrades.kick + 1;
+            break;
+        case "speedU":
+            playerUpgrades.speed = playerUpgrades.speed + 1;
+            break;
+        case "throwU":
+            playerUpgrades.throw = playerUpgrades.throw + 1;
+            break;
+    }
+}
 
 export default class DefaultScene extends Phaser.Scene {
     constructor() {
@@ -97,6 +157,13 @@ export default class DefaultScene extends Phaser.Scene {
         this.load.tilemapTiledJSON('tileMap', '/assets/tilemap/tilemap.json');
         this.load.spritesheet('bomb', '/assets/bomba.png', {frameWidth: 50, frameHeight: 50});
         this.load.image('explosion', '/assets/explosion.png');
+
+        //upgrades
+        this.load.image('bombU', '/assets/upgrade_icons/bomb_50x50.png');
+        this.load.image('explosionU', '/assets/upgrade_icons/explosion_50x50.png');
+        this.load.image('kickU', '/assets/upgrade_icons/kick_50x50.png');
+        this.load.image('speedU', '/assets/upgrade_icons/speed_50x50.png');
+        this.load.image('throwU', '/assets/upgrade_icons/throw_50x50.png');
     }
 
     create() {
@@ -152,11 +219,15 @@ export default class DefaultScene extends Phaser.Scene {
         //bombs animations
         this.anims.create({
             key: 'bombTicking',
-            frames: this.anims.generateFrameNumbers('bomb', {frames: [0,1,2,3,4,5,6,7,8]}),
+            frames: this.anims.generateFrameNumbers('bomb', {frames: [0, 1, 2, 3, 4, 5, 6, 7, 8]}),
             frameRate: 5,
             repeat: 0,
             hideOnComplete: true
         });
+
+        //upgrades group
+        upgrades = this.physics.add.group();
+        this.physics.add.overlap(player, upgrades, collectUpgrade, null, this);
 
 
         //temporary game resize, dont know if this is ok
