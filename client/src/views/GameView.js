@@ -22,7 +22,7 @@ function GameView(props) {
     const socket = props.socket;
     useEffect(() => {
         socket.on("timer", timer => {
-           setTimer(timer.toFixed(1));
+           setTimer(timer);
         });
     }, [timer]);
 
