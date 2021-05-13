@@ -103,8 +103,8 @@ const useAudio = url => {
   };
 
 function App() {
-    const url = "https://vgmsite.com/soundtracks/bomberman-music-from/lspcxxsshh/09.%20BGM1.mp3";
-    const url2 = "https://vgmsite.com/soundtracks/kirby-battle-royale-gamerip/lervhazs/02.%20Banner%20Intro.mp3";
+    const url = 'https://vgmsite.com/soundtracks/bomberman-music-from/lspcxxsshh/09.%20BGM1.mp3';
+    const url2 = 'https://vgmsite.com/soundtracks/kirby-battle-royale-gamerip/lervhazs/02.%20Banner%20Intro.mp3';
     const [isMuted, setIsMuted] = useAudio(url);
 
     return (

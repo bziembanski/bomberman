@@ -1,11 +1,13 @@
-import React from "react";
-import {Col, Container, Row} from "react-bootstrap";
+import React from 'react';
+import {Col, Container, Row} from 'react-bootstrap';
 
 function PlayerInfo(props) {
 
     return (
         <div>
-            <p style={{fontSize: '1.2rem', textAlign: 'center', margin: 0}}>name</p>
+            <p style={{fontSize: '1.2rem', textAlign: 'center', margin: 0}}>
+                name
+            </p>
             <Container fluid className='player'>
                 <Row style={{marginBottom: '0', height: '100%'}}>
                     <Col xs={3} style={{justifyContent: 'center'}}>

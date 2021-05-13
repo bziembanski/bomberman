@@ -15,7 +15,7 @@ function SelectRoom(props) {
     }
 
     const handleSubmit = () => {
-        history.push("/room/1", { from: "/select-room" })
+        history.push('/room/1', {from: '/select-room'})
         //TODO
     }
 
@@ -44,8 +44,8 @@ function SelectRoom(props) {
         <Container fluid className='root'>
             <TopButtons history={history} isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
             <Row>
-                <Col xs={{ span:10, offset: 1 }} style={{justifyItems: 'center', alignSelf:'center'}}>
-                    <Container fluid style={{textAlign: 'center', backgroundColor: '#C4C4C4', height: '64vh' }}>
+                <Col xs={{span: 10, offset: 1}} style={{justifyItems: 'center', alignSelf: 'center'}}>
+                    <Container fluid style={{textAlign: 'center', backgroundColor: '#C4C4C4', height: '64vh'}}>
                         <Row className='header'>
                             <Col>game id</Col>
                             <Col>host</Col>

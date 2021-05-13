@@ -16,20 +16,20 @@ function CreateRoom(props) {
 
     const handleSubmit = () => {
         //TODO
-        history.push("/room/1", { from: "/create-room" })
+        history.push('/room/1', {from: '/create-room'})
     }
 
 
     return (
         <Container fluid className='root'>
             <TopButtons history={history} isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
-            <Row style={{ paddingTop: '6rem' }}>
-                <Col xs={{ span:4, offset: 2 }}>
+            <Row style={{paddingTop: '6rem'}}>
+                <Col xs={{span: 4, offset: 2}}>
                     <div className='label'>
                         your name
                     </div>
                 </Col>
-                <Col xs={{ span:4, offset: 0 }} className='right-col'>
+                <Col xs={{span: 4, offset: 0}} className='right-col'>
                     <input 
                         className='input'
                         value={name}
@@ -37,13 +37,13 @@ function CreateRoom(props) {
                     />
                 </Col>
             </Row>
-            <Row style={{ paddingTop: '2rem' }}>
-                <Col xs={{ span:4, offset: 2 }}>
+            <Row style={{paddingTop: '2rem'}}>
+                <Col xs={{span: 4, offset: 2}}>
                     <div className='label'>
                         players
                     </div>
                 </Col>
-                <Col xs={{ span:4, offset: 0 }} className='right-col'>
+                <Col xs={{span: 4, offset: 0}} className='right-col'>
                     <div className='select-number'>
                         <button className={numberOfPlayers === 2 ? 'selected' + ' ' + 'option' : 'option'} onClick={() => setNumberOfPlayers(2)}>2</button>
                         <button className={numberOfPlayers === 3 ? 'selected' + ' ' + 'option' : 'option'} onClick={() => setNumberOfPlayers(3)}>3</button>
@@ -51,8 +51,8 @@ function CreateRoom(props) {
                     </div>
                 </Col>
             </Row>
-            <Row style={{ paddingTop: '5rem' }}>
-                <Col xs={{ span: 6, offset: 3 }} className='main-col'>
+            <Row style={{paddingTop: '5rem'}}>
+                <Col xs={{span: 6, offset: 3}} className='main-col'>
                     <button className='main-button' onClick={() => handleSubmit()}>
                         create
                     </button>

@@ -15,7 +15,7 @@ function Room(props) {
 
     const handleSubmit = () => {
         if(isHost)
-            history.push("/game/1", { from: "/room/1" });
+            history.push('/game/1', {from: '/room/1'});
             
         //TODO
     }

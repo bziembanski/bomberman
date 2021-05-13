@@ -3,7 +3,7 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory, Link } from 'react-router-dom';
 import MuteButton from '../components/MuteButton';
 import Game from '../game/Game';
-import Timer from "../components/Timer";
+import Timer from '../components/Timer';
 import PlayerInfo from "../components/PlayerInfo";
 
 
@@ -20,7 +20,7 @@ function time(timer, setTimer){
 
 function GameView(props) {
     const history = useHistory();
-    const [timer, setTimer] = useState("3.0");
+    const [timer, setTimer] = useState('3.0');
     useEffect(() => {
         let interval = time(timer, setTimer)
         return () => clearInterval(interval);
@@ -29,17 +29,17 @@ function GameView(props) {
     return (
         <Container fluid className='root'>
             <Row style={{justifyContent: 'center'}}>
-                <Col xs={{span: 6}} >
+                <Col xs={6} >
                     <Game />
                 </Col>
-                <Col xs={{span: 3}}>
+                <Col xs={3}>
                     <Row>
                         <Col xs={6}>
-                            <div style={{ backgroundColor: '#C4C4C4', height: '75px'}}>
+                            <div style={{backgroundColor: '#C4C4C4', height: '75px'}}>
                                 <Timer value={timer}/>
                             </div>
                         </Col>
-                        <Col xs={6} className="right-col">
+                        <Col xs={6} className='right-col'>
                             <MuteButton isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
                         </Col>
                     </Row>
@@ -71,7 +71,7 @@ function GameView(props) {
                     </Row>
                     <Row>
                         <Col>
-                            <Link to="/">
+                            <Link to='/'>
                                 <button className='red-bad-button'>
                                     leave
                                 </button>

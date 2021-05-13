@@ -27,7 +27,7 @@ button, input, .select-number {
     background-size: cover;
 }
 
-button, input, .select-number, .avatar, .upgrade {
+button, input, .select-number, .avatar, .upgrade, .logo {
     background-repeat: no-repeat;
     background-size: cover;
     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
@@ -126,7 +126,7 @@ button:hover {
     margin: 0;
 }
 
-.avatar, .upgrade {
+.avatar, .upgrade, .logo {
     height: 100%;
     background-size: contain;
     background-position: center;
@@ -135,4 +135,17 @@ button:hover {
 .upgrade {
     width: 18%;
     background-position: center bottom;
+}
+
+.logo {
+    background-image: url('./assets/logo/logo.png');
+}
+
+.timer {
+    height: 100%;
+    font-size: 25px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
