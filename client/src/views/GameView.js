@@ -4,6 +4,7 @@ import { useHistory, Link } from 'react-router-dom';
 import MuteButton from '../components/MuteButton';
 import Game from '../game/Game';
 import Timer from "../components/Timer";
+import PlayerInfo from "../components/PlayerInfo";
 
 
 
@@ -27,26 +28,45 @@ function GameView(props) {
 
     return (
         <Container fluid className='root'>
-            <Row>
-                <Col xs={{span: 6, offset: 1}} >
+            <Row style={{justifyContent: 'center'}}>
+                <Col xs={{span: 6}} >
                     <Game />
                 </Col>
-                <Col xs={{span: 3, offset: 1}}>
+                <Col xs={{span: 3}}>
                     <Row>
-                        <Col xs={8}>
+                        <Col xs={6}>
                             <div style={{ backgroundColor: '#C4C4C4', height: '75px'}}>
                                 <Timer value={timer}/>
                             </div>
                         </Col>
-                        <Col xs={4} className="right-col">
+                        <Col xs={6} className="right-col">
                             <MuteButton isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <div style={{ backgroundColor: '#C4C4C4', height: '65vh', width: '450px'}}>
-
-                            </div>
+                            <Container fluid className='players-container'>
+                                <Row style={{margin: '0 0 1rem 0'}}>
+                                    <Col xs={12}>
+                                        <PlayerInfo />
+                                    </Col>
+                                </Row>
+                                <Row style={{margin: '0 0 1rem 0'}}>
+                                    <Col xs={12}>
+                                        <PlayerInfo />
+                                    </Col>
+                                </Row>
+                                <Row style={{margin: '0 0 1rem 0'}}>
+                                    <Col xs={12}>
+                                        <PlayerInfo />
+                                    </Col>
+                                </Row>
+                                <Row style={{margin: '0 0 1rem 0'}}>
+                                    <Col xs={12}>
+                                        <PlayerInfo />
+                                    </Col>
+                                </Row>
+                            </Container>
                         </Col>
                     </Row>
                     <Row>

@@ -85,7 +85,7 @@ function Room(props) {
                                             className={selected === player.name && 'selected'} 
                                             style={player.isReady ? Ready : null} 
                                         >
-                                            <Row className='player'>
+                                            <Row className='player-name'>
                                                 <Col>{player.name}</Col>                 
                                             </Row>
                                         </Container>
