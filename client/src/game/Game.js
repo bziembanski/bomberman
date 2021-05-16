@@ -18,10 +18,7 @@ class Game extends Component {
                     gravity: {y: 0}
                 }
             },
-            scale: {
-                //mode: Phaser.Scale.NONE,
-            },
-        
+
             scene: DefaultScene
         }
     }

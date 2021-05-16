@@ -65,10 +65,26 @@ export default class DefaultScene extends Phaser.Scene {
         this.physics.add.collider(player,wallsLayer);
         this.physics.add.collider(player,bricksLayer);
 
-        //temporary game resize, dont know if this is ok
-        let scale = 845/650
-        this.game.canvas.style.width=650 * scale + 'px'
-        this.game.canvas.style.height=650 * scale + 'px'
+        const resize = () => {
+            const w = window.innerWidth * 0.5
+            const h = window.innerHeight * 0.92
+
+            let size = this.game.config.width;
+
+            let scale = Math.min(w / size, h / size)
+
+            // scale the width and height of the css
+            this.game.canvas.style.width = size * scale + 'px'
+            this.game.canvas.style.height = size * scale + 'px'
+
+            // center the game with css margin
+            this.game.canvas.style.marginTop = `${(h - size * scale) / 2}px`
+            this.game.canvas.style.marginLeft = `${(w - size * scale) / 2}px`
+        }
+        window.addEventListener('resize', event => {
+            resize();
+        })
+        resize();
     }
 
     update() {

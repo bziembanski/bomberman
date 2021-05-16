@@ -29,10 +29,10 @@ function GameView(props) {
     return (
         <Container fluid className='root'>
             <Row style={{justifyContent: 'center'}}>
-                <Col xs={6} >
+                <Col xs={6} id='phaser-game'>
                     <Game />
                 </Col>
-                <Col xs={3}>
+                <Col xs={{span: 3, offset: 1}}>
                     <Row>
                         <Col xs={6}>
                             <div style={{backgroundColor: '#C4C4C4', height: '75px'}}>

@@ -18,14 +18,14 @@ function RoomMenu(props) {
             </Row>
             <Row>
                 <Col xs={{span: 6, offset: 3}} className='main-col'>
-                    <button className='main-button' onClick={() => history.push("/create-room", {from: '/room-menu'})}>
+                    <button className='main-button' onClick={() => history.push('/create-room', {from: '/room-menu'})}>
                         create room
                     </button>
                 </Col>
             </Row>
             <Row>
                 <Col xs={{span: 6, offset: 3}} className='main-col'>
-                    <button className='main-button' onClick={() => history.push("/select-room", {from: '/room-menu'})}>
+                    <button className='main-button' onClick={() => history.push('/select-room', {from: '/room-menu'})}>
                         find room
                     </button>
                 </Col>
