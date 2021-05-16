@@ -3,6 +3,13 @@ import Phaser from 'phaser'
 const tileSize = 52;
 const explosionDelay = 1000;
 const upgradeDropChance = 10;
+const upgradesValue = {
+    bomb: 1,
+    explosion: 2,
+    kick: 0,//todo
+    speed: 50,
+    throw: 0//todo
+}
 
 let player;
 let cursors;
@@ -12,13 +19,14 @@ let map;
 let wallsLayer;
 let bricksLayer;
 let upgrades;
-let playerUpgrades = {
-    bomb: 0,
-    explosion: 0,
+let playerStats = {
+    bomb: 1,
+    explosion: 1,
     kick: 0,
-    speed: 0,
+    speed: 150,
     throw: 0
 };
+
 
 function bombExplosion(bombX, bombY, scene) {
     const explosions = [];
@@ -30,7 +38,7 @@ function bombExplosion(bombX, bombY, scene) {
 
 
     //leftExpansion
-    while (wallsLayer.getTileAt(X - step, Y) === null) {
+    while (step <= playerStats.explosion && wallsLayer.getTileAt(X - step, Y) === null) {
         explosions.push(scene.add.image(bombX - step * tileSize, bombY, "explosion").setScale(0.1));
 
         let bricks = bricksLayer.getTileAt(X - step, Y);
@@ -45,7 +53,7 @@ function bombExplosion(bombX, bombY, scene) {
     step = 1;
 
     //rightExpansion
-    while (wallsLayer.getTileAt(X + step, Y) === null) {
+    while (step <= playerStats.explosion && wallsLayer.getTileAt(X + step, Y) === null) {
         explosions.push(scene.add.image(bombX + step * tileSize, bombY, "explosion").setScale(0.1));
 
         let bricks = bricksLayer.getTileAt(X + step, Y);
@@ -60,7 +68,7 @@ function bombExplosion(bombX, bombY, scene) {
     step = 1;
 
     //upExpansion
-    while (wallsLayer.getTileAt(X, Y - step) === null) {
+    while (step <= playerStats.explosion && wallsLayer.getTileAt(X, Y - step) === null) {
         explosions.push(scene.add.image(bombX, bombY - step * tileSize, "explosion").setScale(0.1));
 
         let bricks = bricksLayer.getTileAt(X, Y - step);
@@ -75,7 +83,7 @@ function bombExplosion(bombX, bombY, scene) {
     step = 1;
 
     //downExpansion
-    while (wallsLayer.getTileAt(X, Y + step) === null) {
+    while (step <= playerStats.explosion && wallsLayer.getTileAt(X, Y + step) === null) {
         explosions.push(scene.add.image(bombX, bombY + step * tileSize, "explosion").setScale(0.1));
 
         let bricks = bricksLayer.getTileAt(X, Y + step);
@@ -128,19 +136,19 @@ function collectUpgrade(player, upgrade){
     upgrade.disableBody(true, true);
     switch (upgrade.texture.key){
         case "bombU":
-            playerUpgrades.bomb = playerUpgrades.bomb + 1;
+            playerStats.bomb = playerStats.bomb + upgradesValue.bomb;
             break;
         case "explosionU":
-            playerUpgrades.explosion = playerUpgrades.explosion + 1;
+            playerStats.explosion = playerStats.explosion + upgradesValue.explosion;
             break;
         case "kickU":
-            playerUpgrades.kick = playerUpgrades.kick + 1;
+            playerStats.kick = playerStats.kick + 1;//todo
             break;
         case "speedU":
-            playerUpgrades.speed = playerUpgrades.speed + 1;
+            playerStats.speed = playerStats.speed + upgradesValue.speed;
             break;
         case "throwU":
-            playerUpgrades.throw = playerUpgrades.throw + 1;
+            playerStats.throw = playerStats.throw + 1;//todo
             break;
     }
 }
@@ -238,23 +246,23 @@ export default class DefaultScene extends Phaser.Scene {
 
     update() {
         if (cursors.left.isDown && !player.body.touching.left) {
-            player.setVelocityX(-160);
+            player.setVelocityX(-playerStats.speed);
             player.setVelocityY(0);
 
             player.anims.play('left', true);
         } else if (cursors.right.isDown) {
-            player.setVelocityX(160);
+            player.setVelocityX(playerStats.speed);
             player.setVelocityY(0);
 
             player.anims.play('right', true);
         } else if (cursors.down.isDown) {
             player.setVelocityX(0);
-            player.setVelocityY(160);
+            player.setVelocityY(playerStats.speed);
 
             player.anims.play('down', true);
         } else if (cursors.up.isDown) {
             player.setVelocityX(0);
-            player.setVelocityY(-160);
+            player.setVelocityY(-playerStats.speed);
 
             player.anims.play('up', true);
         } else {
@@ -264,7 +272,7 @@ export default class DefaultScene extends Phaser.Scene {
         }
 
         //creating bomb
-        if (Phaser.Input.Keyboard.JustDown(spacebar) && playerBombsCount < 3) {
+        if (Phaser.Input.Keyboard.JustDown(spacebar) && playerBombsCount < playerStats.bomb) {
             // let bomb = bombs.create(player.x,player.y,'bomb').setScale(0.5);
             const bombX = Math.ceil(player.x / tileSize) * tileSize - tileSize / 2;
             const bombY = Math.ceil(player.y / tileSize) * tileSize - tileSize / 2;
