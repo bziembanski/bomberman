@@ -29,7 +29,7 @@ function SelectRoom(props) {
         });
 
         return () => {
-            socket.off('created room');
+            socket.off('rooms');
         };
     },[]);
 

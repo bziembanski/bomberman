@@ -12,10 +12,11 @@ function Room(props) {
     const [selected, setSelected] = React.useState();
     const [isHost, setIsHost] = React.useState(true);
     const socket = props.socket;
+    const id  = props.match.params.id
 
     const handleSubmit = () => {
         if (isHost) {
-            history.push("/game/1", {from: "/room/1"});
+            history.push(`/game/{id}`, {from: `/room/{id}`});
         }
         //TODO
     }
@@ -26,10 +27,21 @@ function Room(props) {
         }
     }
 
+
+    useEffect(() => {
+        socket.emit('getRoomData', {roomId: id})
+        socket.on('roomData', roomData => {
+            console.log(roomData);
+        });
+
+        return () => {
+            socket.off('roomData');
+        };
+    },[]);
+
     let gameInfo = {
         id: 1,
         host: 'kox',
-        numberOfPlayers: 3,
         maxNumberOfPlayers: 4,
         players: [
             {
@@ -78,9 +90,10 @@ function Room(props) {
                         </Row>
                         <Container fluid>
                             { 
-                                gameInfo.players.map((player) => {
+                                gameInfo.players.map((player, i) => {
                                     return (
                                         <Container
+                                            key={i}
                                             id={player.name}
                                             onClick={isHost ? () => handleSelect(player.name) : null}
                                             className={selected === player.name && 'selected'} 

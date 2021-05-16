@@ -17,6 +17,7 @@ io.on('connection', client => {
     client.on('newRoom',  handleNewRoom);
     client.on('joinRoom', handleJoinRoom);
     client.on('getRooms', handleGetRooms);
+    client.on('getRoomData', handleGetRoomData);
 
     function handleNewRoom(data) {
         const roomId = makeRoomId()
@@ -36,17 +37,22 @@ io.on('connection', client => {
             roomId: roomId,
             positionInRoom: client.positionInRoom
         });
+        console.log(client.id);
+        console.log(io.sockets.adapter.rooms.get(roomId));
     }
 
     function handleJoinRoom(data) {
+        const roomId = parseInt(data.roomId);
         clientData[client.id] = {
-            roomId: data.roomId,
+            roomId: roomId,
             nickname: data.nickname
         }
 
-        const room = io.sockets.adapter.rooms.get(parseInt(data.roomId));
+        client.join(roomId);
+
+        const room = io.sockets.adapter.rooms.get(roomId);
         const numClients = room ? room.size : 0;
-        const maxPlayers = roomsData[data.roomId].maxPlayers;
+        const maxPlayers = roomsData[roomId].maxPlayers;
 
         if (numClients === 0) {
             client.emit('unknownGame');
@@ -56,9 +62,11 @@ io.on('connection', client => {
             return;
         }
 
-        client.join(data.roomId);
         client.positionInRoom = numClients;
-        client.emit('init', client.positionInRoom);
+        console.log(io.sockets.adapter.rooms.get(roomId));
+
+        // client.emit('init', client.positionInRoom);
+        // io.sockets.in(data.roomId).emit("users", {nicknames: nicknames});
     }
 
     function handleGetRooms() {
@@ -70,7 +78,7 @@ io.on('connection', client => {
                 if(io.sockets.sockets.get(mem).positionInRoom === 1) {
                     host = clientData[mem].nickname;
                 }
-            })
+            });
 
             return {
                 roomId: room,
@@ -81,6 +89,20 @@ io.on('connection', client => {
         });
 
         client.emit('rooms', roomList);
+    }
+
+    function handleGetRoomData(data){
+        const roomId = parseInt(data.roomId);
+        const members = io.sockets.adapter.rooms.get(roomId);
+        let players = [];
+        members && members.forEach((player) => {
+            players.push({
+                nickname: clientData[player].nickname,
+                position: io.sockets.sockets.get(player).positionInRoom
+            });
+        });
+        const maxNumberOfPlayers = roomsData[roomId].maxPlayers;
+        client.emit("roomData", {players: players, maxNumberOfPlayers: maxNumberOfPlayers});
     }
 });
 
