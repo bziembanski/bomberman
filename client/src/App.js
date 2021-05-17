@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, useHistory, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 
+
 const socket = io('localhost:3001');
 
 function RoomSelection() { //TODO()
@@ -39,7 +40,7 @@ function RoomSelection() { //TODO()
 }
 
 function __depracate__Room() { //TODO()
-    let {id} = useParams();
+    let { id } = useParams();
 
     if (!(['1', '2'].includes(id))) {
         throw "wrong room id";
@@ -78,26 +79,44 @@ function __depracate__Room() { //TODO()
                 ))}
             </ul>
             <form onSubmit={handleSubmit}>
-                <input value={inputValue} onChange={handleChange}/>
+                <input value={inputValue} onChange={handleChange} />
                 <button>Send</button>
             </form>
         </div>
     );
 }
 
+const useAudio = url => {
+    const [audio] = useState(new Audio(url));
+    const [playing, setPlaying] = useState(false);
+    audio.loop = true;
+  
+    const toggle = () => setPlaying(!playing);
+  
+    useEffect(() => {
+        playing ? audio.play() : audio.pause();
+      },
+      [playing]
+    );
+
+    return [playing, toggle];
+  };
+
 function App() {
-    const [isMuted, setIsMuted] = React.useState(false);
+    const url = 'https://vgmsite.com/soundtracks/bomberman-music-from/lspcxxsshh/09.%20BGM1.mp3';
+    const url2 = 'https://vgmsite.com/soundtracks/kirby-battle-royale-gamerip/lervhazs/02.%20Banner%20Intro.mp3';
+    const [isMuted, setIsMuted] = useAudio(url);
 
     return (
         <Router>
             <Switch>
-                <Route exact path='/' render={(props) => ( <MainMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/room-menu' render={(props) => ( <RoomMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/instructions' render={(props) => ( <Instructions {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/select-room' render={(props) => ( <SelectRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/create-room' render={(props) => ( <CreateRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/>
-                <Route path ='/room' render={(props) => ( <Room {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/> {/* uber stupid, just temporary */}
-                <Route path ='/game' render={(props) => ( <GameView {...props} isMuted={isMuted} setIsMuted={setIsMuted}/> )}/> {/* uber stupid, just temporary */}
+                <Route exact path='/' render={(props) => (<MainMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
+                <Route path='/room-menu' render={(props) => (<RoomMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
+                <Route path='/instructions' render={(props) => (<Instructions {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
+                <Route path='/select-room' render={(props) => (<SelectRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
+                <Route path='/create-room' render={(props) => (<CreateRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
+                <Route path='/room' render={(props) => (<Room {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} /> {/* uber stupid, just temporary */}
+                <Route path='/game' render={(props) => (<GameView {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} /> {/* uber stupid, just temporary */}
             </Switch>
         </Router>
     );
