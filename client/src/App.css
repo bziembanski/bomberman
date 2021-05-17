@@ -108,3 +108,44 @@ button:hover {
     margin: 10vh 0;
     text-align: center;
 }
+
+.list-group-item-action {
+    background-image: url('./assets/gray-button/gray-button.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.list-group-item.active {
+    border: none;
+    background-image: url('./assets/blue-button/blue-button.png');
+}
+
+.list-group-item, .control, .rules div, .modal-content, .modal-body div, .rules ul li {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-group-item {
+    border-radius: 0 !important;
+}
+
+.asset, .asset-description {
+    display: flex !important;
+    align-items: center;
+}
+
+.tab-content {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 2rem;
+    font-size: 1.2em;
+}
+
+.modal-content {
+    background-color: #C4C4C4 !important;
+    border-radius: 0 !important;
+    font-size: 1.5em;
+}

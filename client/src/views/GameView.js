@@ -3,9 +3,14 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory, Link } from 'react-router-dom';
 import MuteButton from '../components/MuteButton';
 import Game from '../game/Game';
+import Popup from "./Popup";
 
 function GameView(props) {
     const history = useHistory();
+
+    const [modalShow, setModalShow] = React.useState(false);
+    const [win, setWin] = React.useState(false);
+    const [point, setPoint] = React.useState('100');
 
     return (
         <Container fluid className='root'>
@@ -38,10 +43,17 @@ function GameView(props) {
                                     leave
                                 </button>
                             </Link>
+                            <button className='red-bad-button' onClick={() => setModalShow(true)}>
+                                popup
+                            </button>
                         </Col>
                     </Row>
                 </Col>
             </Row>
+            <Popup show={modalShow} win={win} point={point}
+                   onHide={() => { setModalShow(false);
+                   setWin(!win)}}/>
+
         </Container>
     )
 }
