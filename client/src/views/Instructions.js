@@ -1,10 +1,10 @@
-import { Container, Col, Row } from 'react-bootstrap';
+import React from "react";
+import {Container, Col, Row, Nav} from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
 import {TabContainer} from "react-bootstrap";
 import ListGroup from "react-bootstrap/ListGroup";
 import TabContent from "react-bootstrap/TabContent";
-import React from "react";
 import TabPane from "react-bootstrap/TabPane";
 import bomb from "../assets/upgrade_icons/bomb/bomb_50x50.png";
 import explosion from "../assets/upgrade_icons/explosion/explosion_50x50.png";
@@ -16,53 +16,71 @@ import control from "../assets/control/control.png"
 function Instructions(props) {
     const history = useHistory();
 
+    React.useEffect(() => {
+        history.replace('/instructions', {});
+    }, []);
+
     return (
         <Container fluid className='root'>
             <TopButtons history={history} isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
             <Row>
                 <Col xs={{span: 10, offset: 1}}>
                     <div style={{backgroundColor: '#C4C4C4', height: '75vh'}}>
-                        <TabContainer  defaultActiveKey="#game">
-                            <ListGroup style={{flexDirection: 'row', minHeight: '75px'}}>
-                                <ListGroup.Item action href="#game">
-                                    AIM OF THE GAME
-                                </ListGroup.Item>
-                                <ListGroup.Item action href="#control">
-                                    CONTROL
-                                </ListGroup.Item>
-                                <ListGroup.Item action href="#rules">
-                                    RULES
-                                </ListGroup.Item>
-                                <ListGroup.Item action href="#upgrades">
-                                    UPGRADES
-                                </ListGroup.Item>
-                            </ListGroup>
+                        <TabContainer  defaultActiveKey='#game'>
+                            <Nav variant="pills" className='flex-row'>
+                                <Nav.Item>
+                                    <Nav.Link eventKey='#game'>goal</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="#control">control</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey='#rules'>rules</Nav.Link>
+                                </Nav.Item>
+                                <Nav.Item>
+                                    <Nav.Link eventKey="#upgrades">upgrades</Nav.Link>
+                                </Nav.Item>
+                            </Nav>
 
                             <TabContent style={{height: '60vh'}}>
                                 <TabPane eventKey="#game">
-                                    <Row>Eliminate your opponents and remain the last player on the board.</Row>
+                                    <div>
+                                        Eliminate your opponents and remain the last player on the board
+                                    </div>
                                 </TabPane>
                                 <TabPane eventKey="#control">
-                                    <Row>
+                                    <div>
                                         The player is controlled by the keyboard
-                                    </Row>
-                                    <Row className='control'>
+                                    </div>
+                                    <div className='control'>
                                         <img src={control}/>
-                                    </Row>
-                                    <Row>
-                                        To throw bombs: double click the drop bomb
-                                    </Row>
+                                    </div>
+                                    <div>
+                                        To throw bombs: click the spacebar
+                                    </div>
                                 </TabPane>
                                 <TabPane eventKey="#rules" className='rules'>
-                                    <Row>The game takes 3 minutes to play. Between 2 and 4 players can play on one board.</Row>
-                                    <div style={{color: '#1a237e'}}>Each player has a starter:</div>
+                                    <div>
+                                        The game takes 3 minutes to play. Between 2 and 4 players can play on one board.
+                                    </div>
+                                    <div>
+                                        <h3 style={{color: '#007bff'}}>
+                                            Each player starts with:
+                                        </h3>
+                                    </div>
                                     <ul>
                                         <li>3 lives</li>
                                         <li>possibility of placing max 1 bomb at the same time</li>
                                         <li>collection of upgrades</li>
                                     </ul>
-                                    <Row><h3 style={{color: '#1a237e'}}>Attention!</h3></Row>
-                                    <Row>40 seconds before the end of the game, the board begins to shrink.</Row>
+                                    <div>
+                                        <h3 style={{color: '#007bff'}}>
+                                            Attention!
+                                        </h3>
+                                    </div>
+                                    <div>
+                                        40 seconds before the end of the game, the board begins to shrink.
+                                    </div>
                                 </TabPane>
                                 <TabPane eventKey="#upgrades" >
                                     <Row>
@@ -91,14 +109,6 @@ function Instructions(props) {
                                         </Col>
                                         <Col xs={5} className='asset-description'>
                                             Increases the bomb's firing range
-                                        </Col>
-                                    </Row>
-                                    <Row>
-                                        <Col xs={1} span={1} className='asset'>
-                                            <img src={throwImg}/>
-                                        </Col>
-                                        <Col xs={5} className='asset-description'>
-                                            Gives you the ability to throw bombs or increases the throw range
                                         </Col>
                                     </Row>
                                 </TabPane>
