@@ -161,7 +161,7 @@ button:hover {
     font-size: 1.5rem;
 }
 
-.tab-pane div {
+.tab-pane > div {
     text-align: center;
     padding-bottom: 2rem;
 }
@@ -181,6 +181,7 @@ ul {
 .asset, .asset-description {
     display: flex !important;
     align-items: center;
+    text-align: left;
 }
 
 .tab-content {
