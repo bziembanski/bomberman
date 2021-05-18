@@ -150,26 +150,32 @@ button:hover {
     justify-content: center;
 }
 
-.list-group-item-action {
-    background-image: url('./assets/gray-button/gray-button.png');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-}
-
-.list-group-item.active {
-    border: none;
-    background-image: url('./assets/blue-button/blue-button.png');
-}
-
-.list-group-item, .control, .rules div, .modal-content, .modal-body div, .rules ul li {
-    display: flex !important;
+.nav {
+    min-height: 75px;
     justify-content: center;
     align-items: center;
 }
 
-.list-group-item {
-    border-radius: 0 !important;
+.nav-item {
+    margin: 0 2rem;
+    font-size: 1.5rem;
+}
+
+.tab-pane div {
+    text-align: center;
+    padding-bottom: 2rem;
+}
+
+ul {
+    padding: 0 0 2rem 0;
+    margin: 0 !important;
+}
+
+.control, .rules div, .modal-content, .modal-body div, .rules ul li {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 .asset, .asset-description {
@@ -183,10 +189,4 @@ button:hover {
     align-items: center;
     margin: 1rem 2rem;
     font-size: 1.2em;
-}
-
-.modal-content {
-    background-color: #C4C4C4 !important;
-    border-radius: 0 !important;
-    font-size: 1.5em;
 }
