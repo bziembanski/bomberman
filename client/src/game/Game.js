@@ -8,10 +8,10 @@ class Game extends Component {
     state = {
         initialize: true,
         game: {
-            width: 650,
-            height: 650,
+            width: 676,
+            height: 676,
             type: Phaser.AUTO,
-            backgroundColor: '#2b2b3e',
+            backgroundColor: '#212529',
             physics: {
                 default: 'arcade',
                 arcade: {
