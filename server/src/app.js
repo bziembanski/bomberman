@@ -3,10 +3,28 @@ const io = require('socket.io')({
         origin: ['http://localhost:3000']
     }
 });
-
+const timeLimit = 10.0;
+let time = timeLimit;
+let old;
+let interval;
+function startTimer(){
+    io.emit("timer", timeLimit.toFixed(1));
+    old = undefined;
+    setTimeout(()=>{
+        interval = setInterval(() => {
+            if(!old) old = new Date().getTime();
+            const newer = new Date().getTime();
+            time = (timeLimit - (newer - old) / 1000).toFixed(1);
+            if (parseFloat(time) <= 0) {
+                clearInterval(interval);
+                time = "bang bang"
+            }
+            io.emit("timer", time);
+        }, 100);
+    }, 2000);
+}
 io.on('connection', socket => {
     console.log(`connect: ${socket.id}`);
-
     socket.on('join room', room => {
         const clients = io.of("/").adapter.rooms.get(room);
         if (clients && clients.size >= 4) {
@@ -29,6 +47,13 @@ io.on('connection', socket => {
             socket.leave(room);
         });
     });
+    socket.on("timer", () => {
+        startTimer();
+    });
+    if(!interval) {
+        startTimer();
+    }
+
 
     socket.on('disconnect', () => {
         console.log(`disconnect: ${socket.id}`);

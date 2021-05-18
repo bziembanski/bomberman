@@ -3,12 +3,11 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory, Link } from 'react-router-dom';
 import MuteButton from '../components/MuteButton';
 import Game from '../game/Game';
-import Timer from '../components/Timer';
 import PlayerInfo from "../components/PlayerInfo";
 import Popup from "./Popup";
 
 
-function time(timer, setTimer){
+function __dev_test_time(timer, setTimer){
     let interval = setInterval(() => {
         setTimer(timer => (timer - 0.1).toFixed(1));
     }, 100);
@@ -20,15 +19,20 @@ function time(timer, setTimer){
 
 function GameView(props) {
     const history = useHistory();
-    const [timer, setTimer] = useState('3.0');
     const [modalShow, setModalShow] = React.useState(false);
     const [win, setWin] = React.useState(false);
     const [point, setPoint] = React.useState('100');
-
+    const [timer, setTimer] = useState("300.0");
+    const socket = props.socket;
     useEffect(() => {
-        let interval = time(timer, setTimer)
-        return () => clearInterval(interval);
+        socket.on("timer", timer => {
+           setTimer(timer);
+        });
     }, [timer]);
+    function timerClick(){
+        socket.emit("timer", "");
+        console.log("click");
+    }
 
     return (
         <Container fluid className='root'>
@@ -38,12 +42,14 @@ function GameView(props) {
                 </Col>
                 <Col xs={{span: 3, offset: 1}}>
                     <Row>
-                        <Col xs={6}>
-                            <div style={{backgroundColor: '#C4C4C4', height: '75px'}}>
-                                <Timer value={timer}/>
+                        <Col xs={8}>
+                            <div onClick={timerClick} style={{ backgroundColor: '#C4C4C4', height: '75px'}}>
+                                <div style={{fontSize:25, height:"100%", display:"flex", flexDirection:"column", margin:"auto", textAlign:"center", justifyContent:"center"}}>
+                                    {timer}
+                                </div>
                             </div>
                         </Col>
-                        <Col xs={6} className='right-col'>
+                        <Col xs={4} className='right-col'>
                             <MuteButton isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
                         </Col>
                     </Row>
