@@ -10,7 +10,7 @@ const Ready = {
 function Room(props) {
     const history = useHistory();
     const [selected, setSelected] = useState();
-    const [isHost, setIsHost] = useState(false);
+    const [isHost, setIsHost] = useState(true);
     const [gameInfo, setGameInfo] = useState({});
     const [isLoading, setIsLoading] = useState(true)
     const socket = props.socket;
