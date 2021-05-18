@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
@@ -8,6 +8,8 @@ function SelectRoom(props) {
     const history = useHistory();
     const [selected, setSelected] = React.useState();
     const [name, setName] = React.useState('new_player');
+    const socket = props.socket;
+    const [rooms, setRooms] = useState([]);
 
     const handleInput = (event) => {
         if(event.target.value.length < 12)
@@ -15,30 +17,21 @@ function SelectRoom(props) {
     }
 
     const handleSubmit = () => {
-        history.push('/room/1', {from: '/select-room'})
-        //TODO
+        socket.emit("joinRoom", {roomId: selected, nickname: name});
+        history.push(`/room/${selected}`, { from: "/select-room" });
     }
 
-    const rooms = [
-        {
-            id: 1,
-            host: 'kox',
-            numberOfPlayers: 1,
-            maxNumberOfPlayers: 4
-        },
-        {
-            id: 2,
-            host: 'kox',
-            numberOfPlayers: 1,
-            maxNumberOfPlayers: 4
-        },
-        {
-            id: 3,
-            host: 'kox',
-            numberOfPlayers: 1,
-            maxNumberOfPlayers: 4
-        },
-    ]
+    useEffect(() => {
+        socket.emit('getRooms');
+
+        socket.on('rooms', rooms => {
+            setRooms(rooms);
+        });
+
+        return () => {
+            socket.off('rooms');
+        };
+    },[]);
 
     return (
         <Container fluid className='root'>
@@ -56,15 +49,15 @@ function SelectRoom(props) {
                                 rooms.map((room) => {
                                     return (
                                         <Container 
-                                            key={room.id}
-                                            fluid id={room.id} 
-                                            className={selected === room.id && 'selected'} 
-                                            onClick={() => setSelected(room.id)}
+                                            key={room.roomId}
+                                            fluid id={room.roomId}
+                                            className={selected === room.roomId && 'selected'}
+                                            onClick={() => setSelected(room.roomId)}
                                         >
                                             <Row className='room'>
-                                                <Col>{room.id}</Col>
+                                                <Col>{room.roomId}</Col>
                                                 <Col>{room.host}</Col>
-                                                <Col>{room.numberOfPlayers} - {room.maxNumberOfPlayers}</Col>
+                                                <Col>{room.numOfPlayers} - {room.maxPlayers}</Col>
                                             </Row>
                                         </Container>
                                     );

@@ -11,7 +11,6 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Switch, useHistory, useParams } from 'react-router-dom';
 import io from 'socket.io-client';
 
-
 const socket = io('localhost:3001');
 
 function RoomSelection() { //TODO()
@@ -90,9 +89,9 @@ const useAudio = url => {
     const [audio] = useState(new Audio(url));
     const [playing, setPlaying] = useState(false);
     audio.loop = true;
-  
+
     const toggle = () => setPlaying(!playing);
-  
+
     useEffect(() => {
         playing ? audio.play() : audio.pause();
       },
@@ -110,13 +109,13 @@ function App() {
     return (
         <Router>
             <Switch>
-                <Route exact path='/' render={(props) => (<MainMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
-                <Route path='/room-menu' render={(props) => (<RoomMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
-                <Route path='/instructions' render={(props) => (<Instructions {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
-                <Route path='/select-room' render={(props) => (<SelectRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
-                <Route path='/create-room' render={(props) => (<CreateRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} />
-                <Route path='/room' render={(props) => (<Room {...props} isMuted={isMuted} setIsMuted={setIsMuted} />)} /> {/* uber stupid, just temporary */}
-                <Route path='/game' render={(props) => (<GameView {...props} socket={socket} isMuted={isMuted} setIsMuted={setIsMuted} />)} /> {/* uber stupid, just temporary */}
+                <Route exact path='/' render={(props) => ( <MainMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/room-menu' render={(props) => ( <RoomMenu {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/instructions' render={(props) => ( <Instructions {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/select-room' render={(props) => ( <SelectRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/create-room' render={(props) => ( <CreateRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/room/:id' render={(props) => ( <Room {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )} /> {/* uber stupid, just temporary */}
+                <Route path ='/game/:id' render={(props) => ( <GameView {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/> {/* uber stupid, just temporary */}
             </Switch>
         </Router>
     );

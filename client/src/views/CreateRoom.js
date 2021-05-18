@@ -1,13 +1,13 @@
-import React from 'react';
-import { Container, Col, Row } from 'react-bootstrap';
+import React, {useEffect} from 'react';
+import { Container, Col, Row, Button} from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
-
 
 function CreateRoom(props) {
     const history = useHistory();
     const [name, setName] = React.useState('new_player');
-    const [numberOfPlayers, setNumberOfPlayers] = React.useState();
+    const [numberOfPlayers, setNumberOfPlayers] = React.useState(2);
+    const socket = props.socket;
 
     const handleInput = (event) => {
         if(event.target.value.length < 12)
@@ -15,10 +15,21 @@ function CreateRoom(props) {
     }
 
     const handleSubmit = () => {
-        //TODO
-        history.push('/room/1', {from: '/create-room'})
+        socket.emit('newRoom', {
+            nickname: name,
+            maxPlayers: numberOfPlayers
+        });
     }
 
+    useEffect(() => {
+        socket.on('init', data => {
+            history.push(`/room/${data.roomId}`, { from: "/create-room" })
+        });
+
+        return () => {
+            socket.off('init');
+        };
+    });
 
     return (
         <Container fluid className='root'>
