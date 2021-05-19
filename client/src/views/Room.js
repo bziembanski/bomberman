@@ -10,32 +10,43 @@ const Ready = {
 function Room(props) {
     const history = useHistory();
     const [selected, setSelected] = useState();
-    const [isHost, setIsHost] = useState(true);
+    const [isHost, setIsHost] = useState(false);
     const [gameInfo, setGameInfo] = useState({});
     const [isLoading, setIsLoading] = useState(true)
     const socket = props.socket;
-    const id  = props.match.params.id
+    const playerId = socket.id;
+    const id = props.match.params.id
 
     const handleSubmit = () => {
         if (isHost) {
             history.push(`/game/{id}`, {from: `/room/{id}`});
         }
-        //TODO
-    }
-
-    const handleSelect = (playerName) => {
-        if(playerName !== gameInfo.players.filter(n=>n.position===1)[0].nickname) {
-            setSelected(playerName);
+        else {
+            socket.emit('isPlayerReadyUpdate', gameInfo.players.map(player => {return player.playerId === playerId ? {...player, isReady: !player.isReady} : player}));
         }
     }
 
+    const handleSelect = (playerId) => {
+        if(playerId !== gameInfo.players.filter(n=>n.position===1)[0].playerId) {
+            if(playerId === selected) {
+                setSelected(null);
+            }
+            else {
+                setSelected(playerId);
+            }
+        }
+    }
 
     useEffect(() => {
+        console.log("elo use effect");
         socket.emit('getRoomData', {roomId: id});
         socket.on('roomData', roomData => {
             setGameInfo({...roomData});
-            setIsLoading(false);
             console.log(roomData);
+            if(roomData.players.length === 1){
+                setIsHost(true);
+            }
+            setIsLoading(false);
         });
         socket.on("dataChange", () => {
             socket.emit("getRoomData", {roomId: id});
@@ -102,16 +113,16 @@ function Room(props) {
                                 </Row>
                                 <Container fluid>
                                     {
-                                        gameInfo.players.map((player, i) => {
+                                        gameInfo.players.map((player) => {
                                             return (
                                                 <Container
-                                                    key={i}
-                                                    id={player.nickname}
-                                                    onClick={isHost ? () => handleSelect(player.name) : null}
-                                                    className={selected === player.name && 'selected'}
+                                                    key={player.playerId}
+                                                    id={player.playerId}
+                                                    onClick={isHost ? () => handleSelect(player.playerId) : null}
+                                                    className={selected === player.playerId && 'selected'}
                                                     style={player.isReady ? Ready : null}
                                                 >
-                                                    <Row className='player'>
+                                                    <Row className='player-name'>
                                                         <Col>{player.nickname}</Col>
                                                     </Row>
                                                 </Container>
@@ -129,9 +140,13 @@ function Room(props) {
             }
             <Row>
                 <Col xs={{span: 4, offset: 1}}>
-                    <button className='main-button' onClick={() => handleSubmit()}>
+                    <button className='main-button' onClick={() => {handleSubmit()}}>
                         {
-                            isHost ? 'start' : 'ready'
+                            isHost
+                                ? 'start'
+                                : gameInfo && gameInfo.players && gameInfo.players.filter(p=>p.playerId===playerId)[0].isReady
+                                ? 'not ready'
+                                : 'ready'
                         }
                     </button>
                 </Col>

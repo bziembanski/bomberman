@@ -40,6 +40,15 @@ io.on('connection', client => {
     client.on('getRooms', handleGetRooms);
     client.on('getRoomData', handleGetRoomData);
     client.on("dataChange", ()=>io.emit("dataChange"));
+    client.on('isPlayerReadyUpdate', (players)=> {
+        console.log(players);
+        players.forEach(player => {
+            clientData[player.playerId].isReady = player.isReady;
+        });
+        console.log(clientData);
+        io.emit("dataChange");
+        console.log(clientData);
+    });
     client.on("disconnect", () => {
         console.log("elo");
         io.emit("dataChange");
@@ -57,7 +66,8 @@ io.on('connection', client => {
         const roomId = makeRoomId()
         clientData[client.id] = {
             roomId: roomId,
-            nickname: data.nickname
+            nickname: data.nickname,
+            isReady: false
         }
 
         roomsData[roomId] = {
@@ -80,22 +90,24 @@ io.on('connection', client => {
         const roomId = parseInt(data.roomId);
         clientData[client.id] = {
             roomId: roomId,
-            nickname: data.nickname
+            nickname: data.nickname,
+            isReady: false
         }
 
-        client.join(roomId);
-
         const room = io.sockets.adapter.rooms.get(roomId);
+
         const numClients = room ? room.size : 0;
         const maxPlayers = roomsData[roomId].maxPlayers;
-
         if (numClients === 0) {
+
             client.emit('unknownGame');
             return;
-        } else if (numClients > maxPlayers) {
+        } else if (numClients >= maxPlayers) {
             client.emit('tooManyPlayers');
             return;
         }
+
+        client.join(roomId);
 
         client.positionInRoom = numClients;
         console.log(io.sockets.adapter.rooms.get(roomId));
@@ -132,8 +144,9 @@ io.on('connection', client => {
         members && members.forEach((player) => {
             players.push({
                 nickname: clientData[player].nickname,
+                playerId: player,
                 position: io.sockets.sockets.get(player).positionInRoom,
-                isReady: false,
+                isReady: clientData[player].isReady,
             });
         });
         const maxNumberOfPlayers = roomsData[roomId].maxPlayers;
