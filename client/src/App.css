@@ -9,7 +9,6 @@
 
 .row {
     margin: 0 0 2rem 0;
-    
 }
 
 .main-col {
@@ -27,7 +26,7 @@ button, input, .select-number {
     background-size: cover;
 }
 
-button, input, .select-number, .avatar, .upgrade, .logo {
+button, input, .select-number, .avatar, .upgrade, .logo, .heart {
     background-repeat: no-repeat;
     background-size: cover;
     image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
@@ -106,7 +105,7 @@ button:hover {
 }
 
 .game-info, .players-info {
-    width: 450px;
+    width: 450px !important;
     background-color: #C4C4C4;
     padding: 1rem 0 2rem 0;
     margin: 10vh 0;
@@ -114,9 +113,21 @@ button:hover {
 }
 
 .players-container {
+    width: 450px !important;
     background-color: #C4C4C4;
     height: 65vh;
     padding: 1rem !important;
+}
+
+.game-topActions {
+    width: 465px !important;
+    padding: 0;
+}
+
+.timer-wrapper {
+    background-color: #C4C4C4;
+    height: 75px;
+    font-size: 2rem;
 }
 
 .player {
@@ -133,8 +144,16 @@ button:hover {
 }
 
 .upgrade {
-    width: 18%;
+    width: 22%;
     background-position: center bottom;
+}
+
+.heart {
+    height: 24px;
+    width: 26px;
+    background-size: contain;
+    background-position: center bottom;
+    background-image: url('./assets/heart/heart13x12.png');
 }
 
 .logo {
@@ -190,4 +209,60 @@ ul {
     align-items: center;
     margin: 1rem 2rem;
     font-size: 1.2em;
+}
+
+@media only screen and (max-device-width: 1300px) {
+
+    .game-info, .players-info, .main-button, .input, .select-number, .label, .red-bad-button {
+        width: 300px !important;
+        height: 75px;
+        line-height: 75px;
+        font-size: 1.5rem;
+    }
+
+    .mute, .back-button {
+        width: 80px;
+        height: 50px;
+    }
+
+    .header {
+        font-size: 1.5rem;
+        margin: 1rem;
+    }
+
+    .room, .player-name, .info {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+    .game-info, .players-info {
+        height: auto;
+        line-height: 50px;
+    }
+
+    .game-topActions {
+        width: 315px !important;
+    }
+
+    .timer-wrapper {
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .players-container {
+        width: 300px !important;
+        padding: 0.5rem !important;
+        height: 65vh;
+    }
+
+    .player {
+        background-color: #795548;
+        height: 10vh;
+        padding: 0.4rem;
+        margin: 0;
+    }
+
+    .upgrade {
+        width: 24%;
+        height: 90%;
+    }
 }

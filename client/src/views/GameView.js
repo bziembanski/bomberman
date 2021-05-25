@@ -41,21 +41,21 @@ function GameView(props) {
                     <Game />
                 </Col>
                 <Col xs={{span: 3, offset: 1}}>
-                    <Row>
+                    <Row className='game-topActions'>
                         <Col xs={8}>
-                            <div onClick={timerClick} style={{ backgroundColor: '#C4C4C4', height: '75px'}}>
-                                <div style={{fontSize:25, height:"100%", display:"flex", flexDirection:"column", margin:"auto", textAlign:"center", justifyContent:"center"}}>
+                            <div onClick={timerClick} className='timer-wrapper'>
+                                <div style={{fontSize:25, height:"100%", display:"flex", flexDirection:"column", margin:"auto", textAlign:"center", justifyContent:"center", padding: 0}}>
                                     {timer}
                                 </div>
                             </div>
                         </Col>
-                        <Col xs={4} className='right-col'>
+                        <Col xs={4} className='right-col' style={{padding: 0}}>
                             <MuteButton isMuted={props.isMuted} setIsMuted={props.setIsMuted}/>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
-                            <Container fluid className='players-container'>
+                            <Container className='players-container'>
                                 <Row style={{margin: '0 0 1rem 0'}}>
                                     <Col xs={12}>
                                         <PlayerInfo />
