@@ -1,0 +1,16 @@
+body {
+    margin: 0;
+    font-family:'Karamatic Arcade' !important;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+        monospace;
+}
+
+@font-face { 
+    font-family: 'Karamatic Arcade';
+    src: url(assets/font/ka1.ttf);
+} 

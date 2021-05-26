@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.5" tiledversion="1.6.0" orientation="orthogonal" renderorder="right-down" width="13" height="13" tilewidth="54" tileheight="54" infinite="0" nextlayerid="4" nextobjectid="1">
+ <editorsettings>
+  <export target="tilemap.json" format="json"/>
+ </editorsettings>
+ <tileset firstgid="1" name="Wall" tilewidth="50" tileheight="50" tilecount="1" columns="1">
+  <tileoffset x="2" y="-2"/>
+  <image source="../wall_50x50.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="colides" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <tileset firstgid="2" name="Bricks" tilewidth="50" tileheight="50" tilecount="1" columns="1">
+  <tileoffset x="2" y="-2"/>
+  <image source="../bricks_50x50.png" width="50" height="50"/>
+  <tile id="0">
+   <properties>
+    <property name="colides" type="bool" value="true"/>
+   </properties>
+  </tile>
+ </tileset>
+ <layer id="3" name="BricksLayer" width="13" height="13">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,2,2,2,2,2,2,2,2,2,0,0,
+0,2,0,2,0,2,0,2,0,2,0,2,0,
+0,2,2,2,2,2,2,2,2,2,2,2,0,
+0,2,0,2,0,2,0,2,0,2,2,2,0,
+0,2,2,2,2,2,2,2,2,2,2,2,0,
+0,2,0,2,0,2,0,2,0,2,0,2,0,
+0,2,2,2,2,2,2,2,2,2,2,2,0,
+0,2,0,2,0,2,0,2,0,2,0,2,0,
+0,2,2,2,2,2,2,2,2,2,2,2,0,
+0,2,0,2,0,2,0,2,0,2,0,2,0,
+0,0,2,2,2,2,2,2,2,2,2,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="2" name="WallsLayer" width="13" height="13">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,1,0,1,0,1,0,1,0,1,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,1,0,1,0,1,0,1,0,1,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,1,0,1,0,1,0,1,0,1,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,1,0,1,0,1,0,1,0,1,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,1,0,1,0,1,0,1,0,1,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+</map>
