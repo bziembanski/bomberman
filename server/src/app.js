@@ -7,8 +7,13 @@ const connection = require("./handlers/connection.handler");
 const room = require("./handlers/room.handler");
 const game = require("./handlers/game.handler");
 
-const clientData = {};
-const roomsData = {};
+function Server(io) {
+    this.io = io;
+    this.clients = new Map();
+    this.rooms = new Map();
+}
+
+const server = new Server(io);
 
 io.on('connection', client => {
     client.on('newRoom', data => room.handleNewRoom(data, server, client));
