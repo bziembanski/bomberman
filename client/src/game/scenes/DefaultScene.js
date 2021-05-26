@@ -1,9 +1,11 @@
 import Phaser from 'phaser'
+import TweenHelper from "../TweenHelper";
 
 const tileSize = 52;
 const explosionDisplayTime = 1000;
 const explosionDelay = 2000;
 const upgradeDropChance = 10;
+const invincibilityTime = 2000;
 const upgradesValue = {
     bomb: 1,
     explosion: 2,
@@ -12,6 +14,7 @@ const upgradesValue = {
     throw: 0//todo
 }
 
+let scene;
 let player;
 let cursors;
 let spacebar;
@@ -21,12 +24,15 @@ let wallsLayer;
 let bricksLayer;
 let upgrades;
 let bombs;
+let fire;
 let playerStats = {
+    lifes: 1,
     bomb: 2,
     explosion: 1,
     kick: 2,  //11 is a limit, going above will cause bugs (features)
     speed: 150,
-    throw: 0
+    throw: 0,
+    isInvincible: false
 };
 
 
@@ -39,11 +45,11 @@ function bombExplosion(scene, bomb) {
     let step = 1;
 
     const explosions = [];
-    explosions.push(scene.add.image(X_bomb, Y_bomb, 'explosion').setScale(0.1));
+    explosions.push(fire.create(X_bomb, Y_bomb, 'explosion').setScale(0.1));
 
     //leftExpansion
     while (step <= playerStats.explosion && wallsLayer.getTileAt(X_tile - step, Y_tile) === null) {
-        explosions.push(scene.add.image(X_bomb - step * tileSize, Y_bomb, "explosion").setScale(0.1));
+        explosions.push(fire.create(X_bomb - step * tileSize, Y_bomb, "explosion").setScale(0.1));
 
         let bricks = bricksLayer.getTileAt(X_tile - step, Y_tile);
         if (bricks !== null) {
@@ -58,7 +64,7 @@ function bombExplosion(scene, bomb) {
 
     //rightExpansion
     while (step <= playerStats.explosion && wallsLayer.getTileAt(X_tile + step, Y_tile) === null) {
-        explosions.push(scene.add.image(X_bomb + step * tileSize, Y_bomb, "explosion").setScale(0.1));
+        explosions.push(fire.create(X_bomb + step * tileSize, Y_bomb, "explosion").setScale(0.1));
 
         let bricks = bricksLayer.getTileAt(X_tile + step, Y_tile);
         if (bricks !== null) {
@@ -73,7 +79,7 @@ function bombExplosion(scene, bomb) {
 
     //upExpansion
     while (step <= playerStats.explosion && wallsLayer.getTileAt(X_tile, Y_tile - step) === null) {
-        explosions.push(scene.add.image(X_bomb, Y_bomb - step * tileSize, "explosion").setScale(0.1));
+        explosions.push(fire.create(X_bomb, Y_bomb - step * tileSize, "explosion").setScale(0.1));
 
         let bricks = bricksLayer.getTileAt(X_tile, Y_tile - step);
         if (bricks !== null) {
@@ -88,7 +94,7 @@ function bombExplosion(scene, bomb) {
 
     //downExpansion
     while (step <= playerStats.explosion && wallsLayer.getTileAt(X_tile, Y_tile + step) === null) {
-        explosions.push(scene.add.image(X_bomb, Y_bomb + step * tileSize, "explosion").setScale(0.1));
+        explosions.push(fire.create(X_bomb, Y_bomb + step * tileSize, "explosion").setScale(0.1));
 
         let bricks = bricksLayer.getTileAt(X_tile, Y_tile + step);
         if (bricks !== null) {
@@ -99,6 +105,11 @@ function bombExplosion(scene, bomb) {
 
         step++;
     }
+
+    explosions.forEach((ex) => {
+        ex.body.immovable = true;
+        ex.body.moves = false;
+    })
 
     //deleting an explosion
     setTimeout(() => {
@@ -174,10 +185,27 @@ function playerWithBombCollideCallback(player, bomb) {
     bomb.body.velocity.y *= playerStats.kick;
 }
 
-function bombWithWall(bomb) {
+function bombWithWallCollider(bomb) {
     bomb.setPushable(false);
     bomb.body.velocity.x = 0;
     bomb.body.velocity.y = 0;
+}
+
+function gettingDamage(player) {
+    if (!playerStats.isInvincible) {
+        playerStats.lifes--;
+        if (playerStats.lifes < 1) {
+            player.tint = 0xFF0000;
+            player.setFrame(1);
+            setTimeout(() => player.disableBody(true, true), 2000, player);
+        } else {
+            playerStats.isInvincible = true;
+            TweenHelper.flashElement(scene, player, invincibilityTime/200);
+            setTimeout(() => playerStats.isInvincible = false, invincibilityTime);
+        }
+    }
+    console.log(playerStats);
+    console.log(player);
 }
 
 export default class DefaultScene extends Phaser.Scene {
@@ -202,6 +230,7 @@ export default class DefaultScene extends Phaser.Scene {
     }
 
     create() {
+        scene = this;
         this.physics.world.setBounds(tileSize, tileSize, 11 * tileSize, 11 * tileSize);
 
         map = this.make.tilemap({key: 'tileMap'});
@@ -257,8 +286,8 @@ export default class DefaultScene extends Phaser.Scene {
         bombs = this.physics.add.group();
         this.physics.add.collider(bombs, bombs, bombCollideCallback);
         this.physics.add.collider(player, bombs, playerWithBombCollideCallback);
-        this.physics.add.collider(bombs, wallsLayer, bombWithWall);
-        this.physics.add.collider(bombs, bricksLayer, bombWithWall);
+        this.physics.add.collider(bombs, wallsLayer, bombWithWallCollider);
+        this.physics.add.collider(bombs, bricksLayer, bombWithWallCollider);
 
         //bombs animations
         this.anims.create({
@@ -273,6 +302,10 @@ export default class DefaultScene extends Phaser.Scene {
         upgrades = this.physics.add.group();
         this.physics.add.overlap(player, upgrades, collectUpgrade, null, this);
 
+        //fire
+        fire = this.physics.add.group();
+        this.physics.add.overlap(player, fire, gettingDamage);
+        this.physics.add.collider(player, fire);
 
         //temporary game resize, dont know if this is ok
         let scale = 845 / 650
@@ -281,46 +314,48 @@ export default class DefaultScene extends Phaser.Scene {
     }
 
     update() {
-        if (cursors.left.isDown && !player.body.touching.left) {
-            player.setVelocityX(-playerStats.speed);
-            player.setVelocityY(0);
+        if(playerStats.lifes > 0) {
+            if (cursors.left.isDown && !player.body.touching.left) {
+                player.setVelocityX(-playerStats.speed);
+                player.setVelocityY(0);
 
-            player.anims.play('left', true);
-        } else if (cursors.right.isDown && !player.body.touching.right) {
-            player.setVelocityX(playerStats.speed);
-            player.setVelocityY(0);
+                player.anims.play('left', true);
+            } else if (cursors.right.isDown && !player.body.touching.right) {
+                player.setVelocityX(playerStats.speed);
+                player.setVelocityY(0);
 
-            player.anims.play('right', true);
-        } else if (cursors.down.isDown && !player.body.touching.down) {
-            player.setVelocityX(0);
-            player.setVelocityY(playerStats.speed);
+                player.anims.play('right', true);
+            } else if (cursors.down.isDown && !player.body.touching.down) {
+                player.setVelocityX(0);
+                player.setVelocityY(playerStats.speed);
 
-            player.anims.play('down', true);
-        } else if (cursors.up.isDown && !player.body.touching.up) {
-            player.setVelocityX(0);
-            player.setVelocityY(-playerStats.speed);
+                player.anims.play('down', true);
+            } else if (cursors.up.isDown && !player.body.touching.up) {
+                player.setVelocityX(0);
+                player.setVelocityY(-playerStats.speed);
 
-            player.anims.play('up', true);
-        } else {
-            player.setVelocityX(0);
-            player.setVelocityY(0);
-            player.anims.stop();
-        }
+                player.anims.play('up', true);
+            } else {
+                player.setVelocityX(0);
+                player.setVelocityY(0);
+                player.anims.stop();
+            }
 
-        //creating bomb
-        if (Phaser.Input.Keyboard.JustDown(spacebar) && playerBombsCount < playerStats.bomb) {
-            const bombX = Math.ceil(player.x / tileSize) * tileSize - tileSize / 2;
-            const bombY = Math.ceil(player.y / tileSize) * tileSize - tileSize / 2;
+            //creating bomb
+            if (Phaser.Input.Keyboard.JustDown(spacebar) && playerBombsCount < playerStats.bomb) {
+                const bombX = Math.ceil(player.x / tileSize) * tileSize - tileSize / 2;
+                const bombY = Math.ceil(player.y / tileSize) * tileSize - tileSize / 2;
 
-            let bomb = bombs.create(bombX, bombY, 'bomb');
-            bomb.anims.play('bombTicking', true);
-            playerBombsCount++;
+                let bomb = bombs.create(bombX, bombY, 'bomb');
+                bomb.anims.play('bombTicking', true);
+                playerBombsCount++;
 
-            bomb.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
-                playerBombsCount--;
-                bombExplosion(this, bomb);
-                bomb.destroy();
-            }, this);
+                bomb.on(Phaser.Animations.Events.ANIMATION_COMPLETE, function () {
+                    playerBombsCount--;
+                    bombExplosion(this, bomb);
+                    bomb.destroy();
+                }, this);
+            }
         }
     }
 }
