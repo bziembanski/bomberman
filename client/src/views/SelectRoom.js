@@ -20,8 +20,8 @@ function SelectRoom(props) {
         if(selected==null){
             return;
         }
-        socket.emit("joinRoom", {roomId: selected, nickname: name});
-        history.push(`/room/${selected}`, { from: "/select-room" });
+        socket.emit('joinRoom', {roomId: selected, nickname: name});
+        history.push(`/room/${selected}`, {from: '/select-room'});
     }
 
     useEffect(() => {

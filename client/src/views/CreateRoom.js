@@ -23,7 +23,7 @@ function CreateRoom(props) {
 
     useEffect(() => {
         socket.on('init', data => {
-            history.push(`/room/${data.roomId}`, { from: "/create-room" })
+            history.push(`/room/${data.roomId}`, {from: '/create-room'})
         });
 
         return () => {
