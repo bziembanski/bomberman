@@ -94,7 +94,7 @@ function GameView(props) {
                 </Col>
             </Row>
             <Popup
-                show={modalShow} win={win} point={point}
+                show={modalShow} alert={false} win={win} point={point}
                 onHide={() => {
                     setModalShow(false);
                     setWin(!win);

@@ -61,7 +61,7 @@ button:hover {
     background-image: url('./assets/yellow_button/yellow_button_100x25.png');
 }
 
-.red-bad-button {
+.red-bad-button, .red-button {
     background-image: url('./assets/red_button/red_button_100x25.png');
 }
 
@@ -209,6 +209,17 @@ ul {
     align-items: center;
     margin: 1rem 2rem;
     font-size: 1.2em;
+}
+
+.close-button {
+    width: 300px !important;
+    height: 75px;
+    line-height: 75px;
+    font-size: 1.5rem;
+}
+
+.modal-content {
+    background-color: #C4C4C4 !important;
 }
 
 @media only screen and (max-device-width: 1300px) {
