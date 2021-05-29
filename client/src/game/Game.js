@@ -3,7 +3,7 @@ import Phaser from 'phaser';
 import {IonPhaser} from '@ion-phaser/react';
 import DefaultScene from "./scenes/DefaultScene";
 
-
+const scene =  new DefaultScene();
 class Game extends Component {
     state = {
         initialize: true,
@@ -21,8 +21,15 @@ class Game extends Component {
             scale: {
                 //mode: Phaser.Scale.NONE,
             },
-        
-            scene: DefaultScene
+            scene:
+                {
+                    init: function (){
+                        this.mainPlayerNumber=3;
+                    },
+                    preload:scene.preload,
+                    create:scene.create,
+                    update:scene.update
+                }
         }
     }
     render() {
