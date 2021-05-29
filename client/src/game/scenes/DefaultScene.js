@@ -57,6 +57,37 @@ const defaultStats = new PlayerStats ({
     isInvincible: false
 });
 
+function Position(x, y) {
+    this.x = x;
+    this.y = y;
+}
+
+function expandExplosion(bombPos, tilePos, step, explosions) {
+    let horizontalStep = step.x, verticalStep = step.y;
+    while (Math.abs(horizontalStep) <= player.stats.explosion
+    && Math.abs(verticalStep) <= player.stats.explosion
+    && wallsLayer.getTileAt(tilePos.x + horizontalStep, tilePos.y + verticalStep) === null) {
+        explosions.push(fire.create(bombPos.x + horizontalStep * tileSize, bombPos.y + verticalStep * tileSize, "explosion").setScale(0.1));
+
+        let bricks = bricksLayer.getTileAt(tilePos.x + horizontalStep, tilePos.y + verticalStep);
+        if (bricks !== null) {
+            map.removeTileAt(tilePos.x + horizontalStep, tilePos.y + verticalStep, true, true, "BricksLayer");
+            createUpgrade((tilePos.x + horizontalStep) * tileSize + tileSize / 2 - 1, (tilePos.y + verticalStep) * tileSize + tileSize / 2 + 1);
+            break;
+        }
+
+        verticalStep += step.y;
+        horizontalStep += step.x;
+    }
+}
+
+function deleteExplosions(explosions) {
+    setTimeout(() => {
+        explosions.forEach((explosion) => {
+            explosion.destroy();
+        })
+    }, gameConfig.explosionDisplayTime, explosions);
+}
 
 function bombExplosion(scene, bomb) {
     let tilePos = new Position(
@@ -82,17 +113,11 @@ function bombExplosion(scene, bomb) {
         explosion.body.moves = false;
     })
 
-    //deleting an explosion
-    setTimeout(() => {
-        explosions.forEach((explosion) => {
-            explosion.destroy();
-        })
-    }, explosionDisplayTime, explosions);
+    deleteExplosions(explosions);
 }
 
 function createUpgrade(upgradeX, upgradeY) {
-    //Random number
-    const random = Phaser.Math.Between(0, upgradeDropChance);
+    const random = Phaser.Math.Between(0, gameConfig.upgradeDropChance);
     switch (random) {
         case 0:
             upgrades.create(upgradeX, upgradeY, 'bombU');
@@ -114,17 +139,17 @@ function createUpgrade(upgradeX, upgradeY) {
 function collectUpgrade(_, upgrade) {
     switch (upgrade.texture.key) {
         case "bombU":
-            playerStats.bomb = playerStats.bomb + upgradesValue.bomb;
+            player.stats.bomb += gameConfig.upgradesValues.bomb;
             break;
         case "explosionU":
-            playerStats.explosion = playerStats.explosion + upgradesValue.explosion;
+            player.stats.explosion += gameConfig.upgradesValues.explosion;
             break;
         case "kickU":
-            playerStats.kick = playerStats.kick + upgradesValue.kick;
-            if (playerStats.kick > 11) playerStats.kick = 11;
+            player.stats.kick += gameConfig.upgradesValues.kick;
+            if (player.stats.kick > 11) player.stats.kick = 11;
             break;
         case "speedU":
-            playerStats.speed = playerStats.speed + upgradesValue.speed;
+            player.stats.speed += gameConfig.upgradesValues.speed;
             break;
     }
     upgrade.destroy();
@@ -150,13 +175,14 @@ function bombWithWallCollider(bomb) {
     bomb.body.velocity.y = 0;
 }
 
-function gettingDamage(player) {
-    if (!playerStats.isInvincible) {
-        playerStats.lifes--;
-        if (playerStats.lifes < 1) {
-            player.tint = 0xFF0000;
-            player.setFrame(1);
-            setTimeout(() => player.disableBody(true, true), 2000, player);
+function gettingDamage() {
+    if (!player.stats.isInvincible) {
+        player.stats.lives--;
+        if (player.stats.lives < 1) {
+            player.sprite.anims.stop();
+            player.sprite.tint = 0xFF0000;
+            player.sprite.setFrame(1);
+            setTimeout(() => player.sprite.disableBody(true, true), 2000, player.sprite);
         } else {
             player.stats.isInvincible = true;
             TweenHelper.flashElement(scene, player.sprite, gameConfig.invincibilityTime / 200);
@@ -302,7 +328,7 @@ export default class DefaultScene extends Phaser.Scene {
         this.anims.create({
             key: 'bombTicking',
             frames: this.anims.generateFrameNumbers('bomb', {frames: [0, 1, 2, 3, 4, 5, 6, 7, 8]}),
-            duration: explosionDelay,
+            duration: gameConfig.explosionDelay,
             repeat: 0,
             hideOnComplete: true
         });
