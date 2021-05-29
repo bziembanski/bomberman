@@ -4,7 +4,7 @@ import { useHistory, Link } from 'react-router-dom';
 import MuteButton from '../components/MuteButton';
 import Game from '../game/Game';
 import PlayerInfo from "../components/PlayerInfo";
-import Popup from "./Popup";
+import Popup from "../components/Popup";
 
 
 function __dev_test_time(timer, setTimer){
@@ -21,7 +21,6 @@ function GameView(props) {
     const history = useHistory();
     const [modalShow, setModalShow] = React.useState(false);
     const [win, setWin] = React.useState(false);
-    const [point, setPoint] = React.useState('100');
     const [timer, setTimer] = useState("300.0");
     const socket = props.socket;
     useEffect(() => {
@@ -86,18 +85,14 @@ function GameView(props) {
                                     leave
                                 </button>
                             </Link>
-                            <button className='red-bad-button' onClick={() => setModalShow(true)}>
-                                popup
-                            </button>
                         </Col>
                     </Row>
                 </Col>
             </Row>
             <Popup
-                show={modalShow} alert={false} win={win} point={point}
+                show={modalShow} alert={false} win={win}
                 onHide={() => {
                     setModalShow(false);
-                    setWin(!win);
                 }}
             />
         </Container>

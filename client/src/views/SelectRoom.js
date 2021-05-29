@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
-import Popup from "./Popup";
+import Popup from "../components/Popup";
 
 
 function SelectRoom(props) {
