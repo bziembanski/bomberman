@@ -37,6 +37,11 @@ function Room(props) {
         }
     }
 
+    const handleLeave = () => {
+        socket.emit('playerLeave', {clientId: playerId});
+        history.replace('/room-menu');
+    }
+
     useEffect(() => {
         console.log("elo use effect");
         socket.emit('getRoomData', {roomId: id});
@@ -151,7 +156,7 @@ function Room(props) {
                     </button>
                 </Col>
                 <Col xs={{span: 4, offset: 2}} className='right-col'>
-                    <button className='red-bad-button' onClick={() => {history.goBack()}}>
+                    <button className='red-bad-button' onClick={handleLeave}>
                         {
                             isHost ? 'kick' : 'leave'
                         }
