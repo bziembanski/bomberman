@@ -3,7 +3,6 @@ import TweenHelper from "../TweenHelper";
 
 const tileSize = 52;
 let scene;
-let player;
 let cursors;
 let spacebar;
 let playerBombsCount = 0;
@@ -112,7 +111,7 @@ function createUpgrade(upgradeX, upgradeY) {
     }
 }
 
-function collectUpgrade(player, upgrade) {
+function collectUpgrade(_, upgrade) {
     switch (upgrade.texture.key) {
         case "bombU":
             playerStats.bomb = playerStats.bomb + upgradesValue.bomb;
@@ -126,9 +125,6 @@ function collectUpgrade(player, upgrade) {
             break;
         case "speedU":
             playerStats.speed = playerStats.speed + upgradesValue.speed;
-            break;
-        case "throwU":
-            playerStats.throw = playerStats.throw + 1;//todo
             break;
     }
     upgrade.destroy();
@@ -144,8 +140,8 @@ function bombCollideCallback(bomb1, bomb2) {
 
 function playerWithBombCollideCallback(_, bomb) {
     bomb.setPushable(true);
-    bomb.body.velocity.x *= playerStats.kick;
-    bomb.body.velocity.y *= playerStats.kick;
+    bomb.body.velocity.x *= player.stats.kick;
+    bomb.body.velocity.y *= player.stats.kick;
 }
 
 function bombWithWallCollider(bomb) {
@@ -178,7 +174,13 @@ export default class DefaultScene extends Phaser.Scene {
     preload() {
         this.load.image('bricks', '/assets/bricks_50x50.png');
         this.load.image('wall', '/assets/wall_50x50.png');
-        this.load.spritesheet('player', '/assets/player/player_blue.png', {frameWidth: 20, frameHeight: 25});
+
+        //players
+        this.load.spritesheet('player1', '/assets/player/player_red.png', {frameWidth: 20, frameHeight: 25});
+        this.load.spritesheet('player2', '/assets/player/player_green.png', {frameWidth: 20, frameHeight: 25});
+        this.load.spritesheet('player3', '/assets/player/player_yellow.png', {frameWidth: 20, frameHeight: 25});
+        this.load.spritesheet('player4', '/assets/player/player_blue.png', {frameWidth: 20, frameHeight: 25});
+
         this.load.tilemapTiledJSON('tileMap', '/assets/tilemap/tilemap.json');
         this.load.spritesheet('bomb', '/assets/bomba.png', {frameWidth: 50, frameHeight: 50});
         this.load.image('explosion', '/assets/explosion.png');
@@ -286,8 +288,8 @@ export default class DefaultScene extends Phaser.Scene {
 
         wallsLayer.setCollisionByExclusion([-1]);
         bricksLayer.setCollisionByExclusion([-1]);
-        this.physics.add.collider(player, wallsLayer);
-        this.physics.add.collider(player, bricksLayer);
+        this.physics.add.collider(player.sprite, wallsLayer);
+        this.physics.add.collider(player.sprite, bricksLayer);
 
         //bombs
         bombs = this.physics.add.group();
@@ -307,12 +309,12 @@ export default class DefaultScene extends Phaser.Scene {
 
         //upgrades group
         upgrades = this.physics.add.group();
-        this.physics.add.overlap(player, upgrades, collectUpgrade, null, this);
+        this.physics.add.overlap(player.sprite, upgrades, collectUpgrade, null, this);
 
         //fire
         fire = this.physics.add.group();
-        this.physics.add.overlap(player, fire, gettingDamage);
-        this.physics.add.collider(player, fire);
+        this.physics.add.overlap(player.sprite, fire, gettingDamage);
+        this.physics.add.collider(player.sprite, fire);
 
         //temporary game resize, dont know if this is ok
         let scale = 845 / 650
@@ -326,26 +328,26 @@ export default class DefaultScene extends Phaser.Scene {
                 player.sprite.setVelocityX(-player.stats.speed);
                 player.sprite.setVelocityY(0);
 
-                player.anims.play('left', true);
-            } else if (cursors.right.isDown && !player.body.touching.right) {
-                player.setVelocityX(playerStats.speed);
-                player.setVelocityY(0);
+                player.sprite.anims.play('left', true);
+            } else if (cursors.right.isDown && !player.sprite.body.touching.right) {
+                player.sprite.setVelocityX(player.stats.speed);
+                player.sprite.setVelocityY(0);
 
-                player.anims.play('right', true);
-            } else if (cursors.down.isDown && !player.body.touching.down) {
-                player.setVelocityX(0);
-                player.setVelocityY(playerStats.speed);
+                player.sprite.anims.play('right', true);
+            } else if (cursors.down.isDown && !player.sprite.body.touching.down) {
+                player.sprite.setVelocityX(0);
+                player.sprite.setVelocityY(player.stats.speed);
 
-                player.anims.play('down', true);
-            } else if (cursors.up.isDown && !player.body.touching.up) {
-                player.setVelocityX(0);
-                player.setVelocityY(-playerStats.speed);
+                player.sprite.anims.play('down', true);
+            } else if (cursors.up.isDown && !player.sprite.body.touching.up) {
+                player.sprite.setVelocityX(0);
+                player.sprite.setVelocityY(-player.stats.speed);
 
-                player.anims.play('up', true);
+                player.sprite.anims.play('up', true);
             } else {
-                player.setVelocityX(0);
-                player.setVelocityY(0);
-                player.anims.stop();
+                player.sprite.setVelocityX(0);
+                player.sprite.setVelocityY(0);
+                player.sprite.anims.stop();
             }
 
             //creating bomb
