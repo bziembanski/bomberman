@@ -6,6 +6,7 @@ function ClientData(roomId, nickname, isReady) {
 
 function RoomData(maxPlayers) {
     this.maxPlayers = maxPlayers;
+    this.playersPostions = Array(4);
 }
 
 module.exports = {

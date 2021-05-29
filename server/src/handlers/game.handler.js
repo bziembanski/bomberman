@@ -25,7 +25,14 @@ function startTimer(server){
         }, 100);
     }, 2000);
 }
+
+function handlePlayerMove(data, server, client){
+    const roomId = data.roomId;
+    server.rooms[roomId].playersPostions[client.playersPostions] = data.position;
+    server.io(roomId).emit('playerMoved');
+}
+
 module.exports = {
-    interval,
-    startTimer
+    startTimer,
+    handlePlayerMove
 }
