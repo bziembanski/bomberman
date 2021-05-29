@@ -18,7 +18,7 @@ class Game extends Component {
                     debug: true,
                     gravity: {y: 0}
                 }
-            }
+            },
             scene:
                 {
                     init: function (){
