@@ -243,34 +243,12 @@ export default class DefaultScene extends Phaser.Scene {
             if((index + 1) !== this.mainPlayerNumber){
                 return {
                     name: "player"+ (index+1),
-                    //position: new Position(75,75),
                     sprite: undefined,
                     stats: new PlayerStats(defaultStats, position)
                 }
             }
         }).filter(player=>player!==undefined);
-        console.log(otherPlayers)
-        // otherPlayers = [
-        //     {
-        //         name: "player1",
-        //         //position: new Position(75,75),
-        //         sprite: undefined,
-        //         stats: new PlayerStats(defaultStats, new Position(75,75))
-        //     },
-        //     {
-        //         name: "player2",
-        //         //position: new Position(600,75),
-        //         sprite: undefined,
-        //         stats: new PlayerStats(defaultStats, new Position(600,75))
-        //     },
-        //     {
-        //         name: "player3",
-        //         //position: new Position(75,600),
-        //         sprite: undefined,
-        //         stats: new PlayerStats(defaultStats, new Position(75,600))
-        //     }
-        // ];
-
+        console.log(this.socket)
 
         player.sprite = this.physics.add.sprite(player.stats.position.x, player.stats.position.y, player.name).setScale(1.7).refreshBody()
         player.sprite.setCollideWorldBounds(true);

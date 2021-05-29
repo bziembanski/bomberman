@@ -19,7 +19,7 @@ function Room(props) {
 
     const handleSubmit = () => {
         if (isHost) {
-            history.push(`/game/{id}`, {from: `/room/{id}`});
+            history.push(`/game/${id}`, {from: `/room/${id}`});
         }
         else {
             socket.emit('isPlayerReadyUpdate', gameInfo.players.map(player => {return player.playerId === playerId ? {...player, isReady: !player.isReady} : player}));
