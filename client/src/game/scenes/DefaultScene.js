@@ -115,8 +115,13 @@ export default class DefaultScene extends Phaser.Scene {
         
         wallsLayer = map.createLayer('WallsLayer', wallsSet);
         bricksLayer = map.createLayer('BricksLayer', bricksSet);
-        map.randomize(1,3,7,7)
-        
+
+        for(let i=1; i<12; i++)
+            for (let i2=1;i2<12;i2++) {
+                if(i%2 != 0 || i2%2 != 0)
+                    if (Math.random() < 0.4)
+                        map.removeTileAt(i, i2);
+            }
 
         players[0] = this.physics.add.sprite(75, 75, 'player0').setScale(2).refreshBody();
 		players[1] = this.physics.add.sprite(624 , 75, 'player1').setScale(2).refreshBody();
