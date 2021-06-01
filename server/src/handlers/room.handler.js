@@ -94,15 +94,16 @@ function handleIsPlayerReadyUpdate(data, server) {
     server.io.emit("dataChange");
 }
 
-function handlePlayerLeave(data, server, client) {
+function handlePlayerLeave(data, server) {
     const clientId = data.clientId;
     const roomId = server.clients[clientId].roomId;
+    const client = server.io.sockets.sockets.get(clientId)
 
     client.leave(server.clients[clientId].roomId);
     server.clients.delete(clientId);
 
     const room = server.io.sockets.adapter.rooms.get(roomId);
-
+    console.log(room);
     if (room === undefined) {
         server.rooms.delete(roomId);
     }

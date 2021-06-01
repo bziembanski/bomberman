@@ -25,7 +25,7 @@ io.on('connection', client => {
     client.on('dataChange', () => io.emit('dataChange'));
 
     client.on('isPlayerReadyUpdate', data => room.handleIsPlayerReadyUpdate(data, server));
-    client.on('playerLeave', data => room.handlePlayerLeave(data, server, client));
+    client.on('playerLeave', data => room.handlePlayerLeave(data, server));
 
     client.on('playerMove', data => game.handlePlayerMove(data, server, client))
 
