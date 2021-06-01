@@ -114,8 +114,8 @@ function App() {
                 <Route path ='/instructions' render={(props) => ( <Instructions {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
                 <Route path ='/select-room' render={(props) => ( <SelectRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
                 <Route path ='/create-room' render={(props) => ( <CreateRoom {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
-                <Route path ='/room/:id' render={(props) => ( <Room {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )} /> {/* uber stupid, just temporary */}
-                <Route path ='/game/:id' render={(props) => ( <GameView {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/> {/* uber stupid, just temporary */}
+                <Route path ='/room/:id' render={(props) => ( <Room {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
+                <Route path ='/game/:id' render={(props) => ( <GameView {...props} isMuted={isMuted} setIsMuted={setIsMuted} socket={socket}/> )}/>
             </Switch>
         </Router>
     );

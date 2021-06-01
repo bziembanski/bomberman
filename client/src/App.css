@@ -24,6 +24,7 @@
 
 button, input, .select-number {
     background-size: cover;
+    white-space: nowrap;
 }
 
 button, input, .select-number, .avatar, .upgrade, .logo, .heart {
@@ -51,6 +52,11 @@ button, input, .select-number, .avatar, .upgrade, .logo, .heart {
     height: 112.5px;
     line-height: 112.5px;
     font-size: 2rem;
+}
+
+.select-number {
+    display: flex;
+    flex-wrap: nowrap;
 }
 
 button:hover {
@@ -99,8 +105,8 @@ button:hover {
 
 .option {
     line-height: 50px;
-    padding: 0 1rem;
-    margin: 0 1.2rem;
+    margin: 1.5rem 2rem;
+    width: 150px;
     background-color: #00000000;
 }
 
@@ -124,9 +130,10 @@ button:hover {
     padding: 0;
 }
 
-.timer-wrapper {
+.timer {
     background-color: #C4C4C4;
-    height: 75px;
+    text-align: center;
+    line-height: 75px;
     font-size: 2rem;
 }
 
@@ -158,15 +165,6 @@ button:hover {
 
 .logo {
     background-image: url('./assets/logo/logo.png');
-}
-
-.timer {
-    height: 100%;
-    font-size: 25px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
 }
 
 .nav {
@@ -211,13 +209,19 @@ ul {
     font-size: 1.2em;
 }
 
-@media only screen and (max-device-width: 1300px) {
+@media only screen and (max-device-width: 1400px) {
 
     .game-info, .players-info, .main-button, .input, .select-number, .label, .red-bad-button {
         width: 300px !important;
         height: 75px;
         line-height: 75px;
         font-size: 1.5rem;
+    }
+
+    .option {
+        line-height: 25px;
+        width: 100px;
+        margin: 1rem 1.5rem;
     }
 
     .mute, .back-button {
@@ -243,9 +247,9 @@ ul {
         width: 315px !important;
     }
 
-    .timer-wrapper {
-        height: 50px;
+    .timer {
         font-size: 1.5rem;
+        line-height: 50px;
     }
 
     .players-container {

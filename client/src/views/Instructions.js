@@ -27,28 +27,28 @@ function Instructions(props) {
                 <Col xs={{span: 10, offset: 1}}>
                     <div style={{backgroundColor: '#C4C4C4', height: '75vh'}}>
                         <TabContainer  defaultActiveKey='#game'>
-                            <Nav variant="pills" className='flex-row'>
+                            <Nav variant='pills' className='flex-row'>
                                 <Nav.Item>
                                     <Nav.Link eventKey='#game'>goal</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="#control">control</Nav.Link>
+                                    <Nav.Link eventKey='#control'>control</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
                                     <Nav.Link eventKey='#rules'>rules</Nav.Link>
                                 </Nav.Item>
                                 <Nav.Item>
-                                    <Nav.Link eventKey="#upgrades">upgrades</Nav.Link>
+                                    <Nav.Link eventKey='#upgrades'>upgrades</Nav.Link>
                                 </Nav.Item>
                             </Nav>
 
                             <TabContent style={{height: '60vh'}}>
-                                <TabPane eventKey="#game">
+                                <TabPane eventKey='#game'>
                                     <div>
                                         Eliminate your opponents and remain the last player on the board
                                     </div>
                                 </TabPane>
-                                <TabPane eventKey="#control">
+                                <TabPane eventKey='#control'>
                                     <div>
                                         The player is controlled by the keyboard
                                     </div>
@@ -59,7 +59,7 @@ function Instructions(props) {
                                         To throw bombs: click the spacebar
                                     </div>
                                 </TabPane>
-                                <TabPane eventKey="#rules" className='rules'>
+                                <TabPane eventKey='#rules' className='rules'>
                                     <div>
                                         The game takes 3 minutes to play. Between 2 and 4 players can play on one board.
                                     </div>
@@ -82,7 +82,7 @@ function Instructions(props) {
                                         40 seconds before the end of the game, the board begins to shrink.
                                     </div>
                                 </TabPane>
-                                <TabPane eventKey="#upgrades" >
+                                <TabPane eventKey='#upgrades'>
                                     <Row>
                                         <Col xs={1}  span={1} className='asset'>
                                             <img src={bomb}/>

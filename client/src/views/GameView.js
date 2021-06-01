@@ -3,8 +3,8 @@ import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory, Link } from 'react-router-dom';
 import MuteButton from '../components/MuteButton';
 import Game from '../game/Game';
-import PlayerInfo from "../components/PlayerInfo";
-import Popup from "./Popup";
+import PlayerInfo from '../components/PlayerInfo';
+import Popup from '../components/Popup';
 
 
 function __dev_test_time(timer, setTimer){
@@ -43,10 +43,8 @@ function GameView(props) {
                 <Col xs={{span: 3, offset: 1}}>
                     <Row className='game-topActions'>
                         <Col xs={8}>
-                            <div onClick={timerClick} className='timer-wrapper'>
-                                <div style={{fontSize:25, height:"100%", display:"flex", flexDirection:"column", margin:"auto", textAlign:"center", justifyContent:"center", padding: 0}}>
-                                    {timer}
-                                </div>
+                            <div onClick={timerClick} className='timer'>
+                                {timer}
                             </div>
                         </Col>
                         <Col xs={4} className='right-col' style={{padding: 0}}>
