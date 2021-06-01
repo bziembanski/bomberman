@@ -26,20 +26,26 @@ function Room(props) {
         }
     }
 
-    const handleSelect = (playerId) => {
-        if(playerId !== gameInfo.players.filter(n=>n.position===1)[0].playerId) {
-            if(playerId === selected) {
+    //todo check if it can be replaced with isHost
+    const handleSelect = (playerId_) => {
+        if(playerId_ !== gameInfo.players.filter(n=>n.position===1)[0].playerId) {
+            if(playerId_ === selected) {
                 setSelected(null);
             }
             else {
-                setSelected(playerId);
+                setSelected(playerId_);
             }
         }
     }
 
     const handleLeave = () => {
-        socket.emit('playerLeave', {clientId: playerId});
-        history.replace('/room-menu');
+        if (isHost && selected != null) {
+            socket.emit("playerLeave", {clientId: selected})
+        }
+        else if (!isHost) {
+            socket.emit('playerLeave', {clientId: playerId});
+            history.replace('/room-menu');
+        }
     }
 
     useEffect(() => {
@@ -56,13 +62,22 @@ function Room(props) {
         socket.on("dataChange", () => {
             socket.emit("getRoomData", {roomId: id});
         });
+        socket.on('kick', () => {
+            history.replace('/room-menu');
+        });
         return () => {
             socket.off('roomData');
             socket.off("dataChange");
+            socket.off('kick');
             socket.emit("disco");
         };
     },[]);
 
+    useEffect(() => {
+        if(gameInfo.players && selected && !(gameInfo.players.map(player => player.playerId).includes(selected))) {
+            setSelected(null);
+        }
+    },[gameInfo])
     // let gameInfo = {
     //     id: 1,
     //     maxNumberOfPlayers: 4,
@@ -145,7 +160,7 @@ function Room(props) {
             }
             <Row>
                 <Col xs={{span: 4, offset: 1}}>
-                    <button className='main-button' onClick={() => {handleSubmit()}}>
+                    <button className='main-button' onClick={handleSubmit}>
                         {
                             isHost
                                 ? 'start'

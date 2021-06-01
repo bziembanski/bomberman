@@ -107,6 +107,7 @@ function handlePlayerLeave(data, server, client) {
         server.rooms.delete(roomId);
     }
 
+    server.io.to(clientId).emit('kick');
     server.io.emit('dataChange');
 }
 
