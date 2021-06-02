@@ -38,7 +38,7 @@ function GameView(props) {
         <Container fluid className='root'>
             <Row style={{justifyContent: 'center'}}>
                 <Col xs={6} id='phaser-game'>
-                    <Game />
+                    <Game socket={socket}/>
                 </Col>
                 <Col xs={{span: 3, offset: 1}}>
                     <Row className='game-topActions'>

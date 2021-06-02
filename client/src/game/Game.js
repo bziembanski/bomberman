@@ -3,25 +3,38 @@ import Phaser from 'phaser';
 import {IonPhaser} from '@ion-phaser/react';
 import DefaultScene from "./scenes/DefaultScene";
 
-
+const scene =  new DefaultScene();
 class Game extends Component {
-    state = {
-        initialize: true,
-        game: {
-            width: 676,
-            height: 676,
-            type: Phaser.AUTO,
-            backgroundColor: '#212529',
-            physics: {
-                default: 'arcade',
-                arcade: {
-                    gravity: {y: 0}
-                }
-            },
-
-            scene: DefaultScene
+    constructor(props) {
+        super(props);
+        this.state = {
+            initialize: true,
+            game: {
+                width: 676,
+                height: 676,
+                type: Phaser.AUTO,
+                backgroundColor: '#212529',
+                physics: {
+                    default: 'arcade',
+                    arcade: {
+                        debug: true,
+                        gravity: {y: 0}
+                    }
+                },
+                scene:
+                    {
+                        init: function (){
+                            this.mainPlayerNumber=3;
+                            this.socket=props.socket;
+                        },
+                        preload:scene.preload,
+                        create:scene.create,
+                        update:scene.update
+                    }
+            }
         }
     }
+
     render() {
         const { initialize, game } = this.state;
 
