@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
+import Popup from "../components/Popup";
 
 
 function SelectRoom(props) {
@@ -10,6 +11,8 @@ function SelectRoom(props) {
     const [name, setName] = React.useState('new_player');
     const socket = props.socket;
     const [rooms, setRooms] = useState([]);
+    const [modalShow, setModalShow] = React.useState(false);
+
 
     const handleInput = (event) => {
         if(event.target.value.length < 12)
@@ -20,8 +23,13 @@ function SelectRoom(props) {
         if(selected==null){
             return;
         }
-        socket.emit('joinRoom', {roomId: selected, nickname: name});
-        history.push(`/room/${selected}`, {from: '/select-room'});
+
+        if(name && name !== 'new_player') {
+            socket.emit('joinRoom', {roomId: selected, nickname: name});
+            history.push(`/room/${selected}`, {from: '/select-room'});
+        } else {
+            setModalShow(true);
+        }
     }
 
     useEffect(() => {
@@ -84,6 +92,12 @@ function SelectRoom(props) {
                     />
                 </Col>
             </Row>
+            <Popup
+                show={modalShow} alert={true}
+                onHide={() => {
+                    setModalShow(false);
+                }}
+            />
         </Container>
     )
 }

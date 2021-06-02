@@ -21,7 +21,6 @@ function GameView(props) {
     const history = useHistory();
     const [modalShow, setModalShow] = React.useState(false);
     const [win, setWin] = React.useState(false);
-    const [point, setPoint] = React.useState('100');
     const [timer, setTimer] = useState("300.0");
     const socket = props.socket;
     useEffect(() => {
@@ -84,18 +83,14 @@ function GameView(props) {
                                     leave
                                 </button>
                             </Link>
-                            <button className='red-bad-button' onClick={() => setModalShow(true)}>
-                                popup
-                            </button>
                         </Col>
                     </Row>
                 </Col>
             </Row>
             <Popup
-                show={modalShow} win={win} point={point}
+                show={modalShow} alert={false} win={win}
                 onHide={() => {
                     setModalShow(false);
-                    setWin(!win);
                 }}
             />
         </Container>

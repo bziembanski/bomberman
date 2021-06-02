@@ -1,12 +1,14 @@
 import React, {useEffect} from 'react';
-import { Container, Col, Row, Button} from 'react-bootstrap';
+import { Container, Col, Row } from 'react-bootstrap';
 import { useHistory } from 'react-router-dom';
 import TopButtons from '../components/TopButtons';
+import Popup from "../components/Popup";
 
 function CreateRoom(props) {
     const history = useHistory();
     const [name, setName] = React.useState('new_player');
     const [numberOfPlayers, setNumberOfPlayers] = React.useState(2);
+    const [modalShow, setModalShow] = React.useState(false);
     const socket = props.socket;
 
     const handleInput = (event) => {
@@ -15,10 +17,14 @@ function CreateRoom(props) {
     }
 
     const handleSubmit = () => {
-        socket.emit('newRoom', {
-            nickname: name,
-            maxPlayers: numberOfPlayers
-        });
+        if(name && name !== 'new_player') {
+            socket.emit('newRoom', {
+                nickname: name,
+                maxPlayers: numberOfPlayers
+            });
+        } else {
+            setModalShow(true);
+        }
     }
 
     useEffect(() => {
@@ -69,6 +75,12 @@ function CreateRoom(props) {
                     </button>
                 </Col>
             </Row>
+            <Popup
+                show={modalShow} alert={true}
+                onHide={() => {
+                    setModalShow(false);
+                }}
+            />
         </Container>
     )
 }
