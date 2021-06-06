@@ -21,7 +21,7 @@ function GameView(props) {
     const history = useHistory();
     const [modalShow, setModalShow] = React.useState(false);
     const [win, setWin] = React.useState(false);
-    const [timer, setTimer] = useState("300.0");
+    const [timer, setTimer] = useState("180.0");
     const socket = props.socket;
     useEffect(() => {
         socket.on("timer", timer => {
