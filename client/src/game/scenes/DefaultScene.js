@@ -249,7 +249,7 @@ export default class DefaultScene extends Phaser.Scene {
                 }
             }
         }).filter(player=>player!==undefined);
-        console.log(this.socket)
+
 
         player.sprite = this.physics.add.sprite(player.stats.position.x, player.stats.position.y, player.name).setScale(1.7).refreshBody()
         player.sprite.setCollideWorldBounds(true);
@@ -341,6 +341,19 @@ export default class DefaultScene extends Phaser.Scene {
             resize();
         })
         resize();
+
+        this.socket.on('playerMoved', (data) => {
+            otherPlayers.forEach(player_ => {
+                player_.sprite.setPosition(data[player_.positionInRoom].x, data[player_.positionInRoom].y).refreshBody();
+            });
+        });
+        let oldPosition = undefined;
+        setInterval(()=>{
+            if(typeof oldPosition === 'undefined' || oldPosition !== {x:player.sprite.x, y:player.sprite.y}){
+                oldPosition = {x:player.sprite.x, y:player.sprite.y};
+                this.socket.emit('playerMove', {roomId: this.roomId, position: {x:player.sprite.x, y:player.sprite.y}});
+            }
+        },50, oldPosition);
     }
 
     update() {
