@@ -1,0 +1,283 @@
+.root {
+    height: 100vh;
+    width: 100vw;
+    overflow-y: hidden;
+    background-color: #231F20;
+    padding: 2rem;
+    margin: 0;
+}
+
+.row {
+    margin: 0 0 2rem 0;
+}
+
+.main-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.right-col {
+    display: flex;
+    justify-content: flex-end;
+}
+
+button, input, .select-number {
+    background-size: cover;
+    white-space: nowrap;
+}
+
+button, input, .select-number, .avatar, .upgrade, .logo, .heart {
+    background-repeat: no-repeat;
+    background-size: cover;
+    image-rendering: optimizeSpeed;             /* STOP SMOOTHING, GIVE ME SPEED  */
+    image-rendering: -moz-crisp-edges;          /* Firefox                        */
+    image-rendering: -o-crisp-edges;            /* Opera                          */
+    image-rendering: -webkit-optimize-contrast; /* Chrome (and eventually Safari) */
+    image-rendering: pixelated;                 /* Chrome                         */
+    image-rendering: optimize-contrast;         /* CSS3 Proposed                  */
+    -ms-interpolation-mode: nearest-neighbor;   /* IE8+                           */
+    text-align: center;
+    outline: none;
+    border: none;
+}
+
+.mute, .back-button {
+    width: 120px;
+    height: 75px;
+}
+
+.main-button, .input, .select-number, .label, .red-bad-button{
+    width: 450px !important;
+    height: 112.5px;
+    line-height: 112.5px;
+    font-size: 2rem;
+}
+
+.select-number {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+button:hover {
+    color: #007bff;
+}
+
+.main-button {
+    background-image: url('./assets/yellow_button/yellow_button_100x25.png');
+}
+
+.red-bad-button, .red-button {
+    background-image: url('./assets/red_button/red_button_100x25.png');
+}
+
+.input, .select-number{
+    background-image: url('./assets/green_button/green_button_100x25.png');
+    color: white;
+}
+
+.label {
+    background-color: #C4C4C4;
+    text-align: center;
+}
+
+.back-button {
+    background-image: url('./assets/back_button/back_button_40x25.png');
+}
+
+.header {
+    font-size: 2rem;
+    padding-top: 1rem;
+}
+
+.room, .player-name, .info {
+    margin: 0.5rem 0;
+    font-size: 1.4rem;
+}
+
+.selected {
+    background-color: #ffff00 !important;
+}
+
+.accepted {
+    background-color: #00ff00 !important;
+}
+
+.option {
+    line-height: 50px;
+    margin: 1.5rem 2rem;
+    width: 150px;
+    background-color: #00000000;
+}
+
+.game-info, .players-info {
+    width: 450px !important;
+    background-color: #C4C4C4;
+    padding: 1rem 0 2rem 0;
+    margin: 10vh 0;
+    text-align: center;
+}
+
+.players-container {
+    width: 450px !important;
+    background-color: #C4C4C4;
+    height: 65vh;
+    padding: 1rem !important;
+}
+
+.game-topActions {
+    width: 465px !important;
+    padding: 0;
+}
+
+.timer {
+    background-color: #C4C4C4;
+    text-align: center;
+    line-height: 75px;
+    font-size: 2rem;
+}
+
+.player {
+    height: 10vh;
+    background-color: #795548;
+    padding: 0.5rem;
+    margin: 0;
+}
+
+.avatar, .upgrade, .logo {
+    height: 100%;
+    background-size: contain;
+    background-position: center;
+}
+
+.upgrade {
+    width: 22%;
+    background-position: center bottom;
+}
+
+.heart {
+    height: 24px;
+    width: 26px;
+    background-size: contain;
+    background-position: center bottom;
+    background-image: url('./assets/heart/heart13x12.png');
+}
+
+.logo {
+    background-image: url('./assets/logo/logo.png');
+}
+
+.nav {
+    min-height: 75px;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav-item {
+    margin: 0 2rem;
+    font-size: 1.5rem;
+}
+
+.tab-pane > div {
+    text-align: center;
+    padding-bottom: 2rem;
+}
+
+ul {
+    padding: 0 0 2rem 0;
+    margin: 0 !important;
+}
+
+.control, .rules div, .modal-content, .modal-body div, .rules ul li {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.asset, .asset-description {
+    display: flex !important;
+    align-items: center;
+    text-align: left;
+}
+
+.tab-content {
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem 2rem;
+    font-size: 1.2em;
+}
+
+.close-button {
+    width: 300px !important;
+    height: 75px;
+    line-height: 75px;
+    font-size: 1.5rem;
+}
+
+.modal-content {
+    background-color: #C4C4C4 !important;
+}
+
+@media only screen and (max-device-width: 1400px) {
+
+    .game-info, .players-info, .main-button, .input, .select-number, .label, .red-bad-button {
+        width: 300px !important;
+        height: 75px;
+        line-height: 75px;
+        font-size: 1.5rem;
+    }
+
+    .option {
+        line-height: 25px;
+        width: 100px;
+        margin: 1rem 1.5rem;
+    }
+
+    .mute, .back-button {
+        width: 80px;
+        height: 50px;
+    }
+
+    .header {
+        font-size: 1.5rem;
+        margin: 1rem;
+    }
+
+    .room, .player-name, .info {
+        margin: 0;
+        font-size: 1.2rem;
+    }
+    .game-info, .players-info {
+        height: auto;
+        line-height: 50px;
+    }
+
+    .game-topActions {
+        width: 315px !important;
+    }
+
+    .timer {
+        font-size: 1.5rem;
+        line-height: 50px;
+    }
+
+    .players-container {
+        width: 300px !important;
+        padding: 0.5rem !important;
+        height: 65vh;
+    }
+
+    .player {
+        background-color: #795548;
+        height: 10vh;
+        padding: 0.4rem;
+        margin: 0;
+    }
+
+    .upgrade {
+        width: 24%;
+        height: 90%;
+    }
+}
