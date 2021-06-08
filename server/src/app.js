@@ -1,6 +1,6 @@
 const io = require('socket.io')({
     cors: {
-        origin: ['http://localhost:3000']
+        origin: '*'
     }
 });
 const connection = require("./handlers/connection.handler");
@@ -26,6 +26,8 @@ io.on('connection', client => {
 
     client.on('isPlayerReadyUpdate', data => room.handleIsPlayerReadyUpdate(data, server));
     client.on('playerLeave', data => room.handlePlayerLeave(data, server));
+
+    client.on('gameStart', data => room.handleGameStart(data, server, client));
 
     client.on('playerMove', data => game.handlePlayerMove(data, server, client))
 

@@ -19,7 +19,7 @@ function Room(props) {
 
     const handleSubmit = () => {
         if (isHost) {
-            history.push(`/game/${id}`, {from: `/room/${id}`});
+            socket.emit('gameStart', {roomId: id});
         }
         else {
             socket.emit('isPlayerReadyUpdate', gameInfo.players.map(player => {return player.playerId === playerId ? {...player, isReady: !player.isReady} : player}));
@@ -65,6 +65,7 @@ function Room(props) {
         socket.on('kick', () => {
             history.replace('/room-menu');
         });
+
         return () => {
             socket.off('roomData');
             socket.off("dataChange");
@@ -76,6 +77,18 @@ function Room(props) {
     useEffect(() => {
         if(gameInfo.players && selected && !(gameInfo.players.map(player => player.playerId).includes(selected))) {
             setSelected(null);
+        }
+        socket.on('gameStart', () => {
+            console.log(gameInfo.players);
+            const pos = gameInfo.players.find(player => player.playerId === playerId).position;
+            console.log(pos);
+            history.push(`/game/${id}`, {
+                positionInRoom: (pos-1),
+                from: `/room/${id}`
+            });
+        });
+        return () => {
+            socket.off('gameStart');
         }
     },[gameInfo])
     // let gameInfo = {

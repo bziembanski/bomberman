@@ -1,7 +1,7 @@
 function handleDisconnect(server, client) {
     const roomId = server.clients[client.id].roomId;
     removeClientData(client, server);
-    removeRoomData(roomId);
+    removeRoomData(roomId, server);
 
     server.io.emit('dataChange');
 }

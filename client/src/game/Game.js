@@ -7,6 +7,7 @@ const scene =  new DefaultScene();
 class Game extends Component {
     constructor(props) {
         super(props);
+        console.log(props);
         this.state = {
             initialize: true,
             game: {
@@ -24,8 +25,9 @@ class Game extends Component {
                 scene:
                     {
                         init: function (){
-                            this.mainPlayerNumber=3;
+                            this.mainPlayerNumber=props.positionInRoom;
                             this.socket=props.socket;
+                            this.roomId = props.roomId;
                         },
                         preload:scene.preload,
                         create:scene.create,

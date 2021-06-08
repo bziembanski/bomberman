@@ -192,7 +192,6 @@ function gettingDamage() {
 }
 
 export default class DefaultScene extends Phaser.Scene {
-    mainPlayerNumber = 1;
     constructor() {
         super('DefaultScene-world');
     }
@@ -202,10 +201,10 @@ export default class DefaultScene extends Phaser.Scene {
         this.load.image('wall', '/assets/wall_50x50.png');
 
         //players
-        this.load.spritesheet('player1', '/assets/player/player_red.png', {frameWidth: 20, frameHeight: 25});
-        this.load.spritesheet('player2', '/assets/player/player_green.png', {frameWidth: 20, frameHeight: 25});
-        this.load.spritesheet('player3', '/assets/player/player_yellow.png', {frameWidth: 20, frameHeight: 25});
-        this.load.spritesheet('player4', '/assets/player/player_blue.png', {frameWidth: 20, frameHeight: 25});
+        this.load.spritesheet('player0', '/assets/player/player_red.png', {frameWidth: 20, frameHeight: 25});
+        this.load.spritesheet('player1', '/assets/player/player_green.png', {frameWidth: 20, frameHeight: 25});
+        this.load.spritesheet('player2', '/assets/player/player_yellow.png', {frameWidth: 20, frameHeight: 25});
+        this.load.spritesheet('player3', '/assets/player/player_blue.png', {frameWidth: 20, frameHeight: 25});
 
         this.load.tilemapTiledJSON('tileMap', '/assets/tilemap/tilemap.json');
         this.load.spritesheet('bomb', '/assets/bomba.png', {frameWidth: 50, frameHeight: 50});
@@ -220,6 +219,7 @@ export default class DefaultScene extends Phaser.Scene {
     }
 
     create() {
+        console.log(this.roomId);
         scene = this;
         this.physics.world.setBounds(tileSize, tileSize, 11 * tileSize, 11 * tileSize);
 
@@ -236,13 +236,14 @@ export default class DefaultScene extends Phaser.Scene {
         player = {
             name: "player" + this.mainPlayerNumber,
             sprite: undefined,
-            stats: new PlayerStats(defaultStats,positions[this.mainPlayerNumber-1])
+            stats: new PlayerStats(defaultStats,positions[this.mainPlayerNumber])
         }
 
         otherPlayers = positions.map((position, index) =>{
-            if((index + 1) !== this.mainPlayerNumber){
+            if((index) !== this.mainPlayerNumber){
                 return {
-                    name: "player"+ (index+1),
+                    name: "player"+ index,
+                    positionInRoom: index,
                     sprite: undefined,
                     stats: new PlayerStats(defaultStats, position)
                 }

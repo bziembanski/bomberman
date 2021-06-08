@@ -30,13 +30,13 @@ function handleJoinRoom(data, server, client) {
 
     const room = server.io.sockets.adapter.rooms.get(roomId);
 
-    const numClients = room ? room.size : 0;
+    const numClients = room ? room.size + 1 : 0;
     const maxPlayers = server.rooms[roomId].maxPlayers;
     if (numClients === 0) {
 
         client.emit('unknownGame');
         return;
-    } else if (numClients >= maxPlayers) {
+    } else if (numClients > maxPlayers) {
         client.emit('tooManyPlayers');
         return;
     }
@@ -112,11 +112,17 @@ function handlePlayerLeave(data, server) {
     server.io.emit('dataChange');
 }
 
+function handleGameStart(data, server, client){
+    const roomId = parseInt(data.roomId);
+    server.io.to(roomId).emit('gameStart');
+}
+
 module.exports = {
     handleNewRoom,
     handleJoinRoom,
     handleGetRooms,
     handleGetRoomData,
     handleIsPlayerReadyUpdate,
-    handlePlayerLeave
+    handlePlayerLeave,
+    handleGameStart
 }

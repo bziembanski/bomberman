@@ -27,9 +27,9 @@ function startTimer(server){
 }
 
 function handlePlayerMove(data, server, client){
-    const roomId = data.roomId;
-    server.rooms[roomId].playersPostions[client.playersPostions] = data.position;
-    server.io(roomId).emit('playerMoved');
+    const roomId = parseInt(data.roomId);
+    server.rooms[roomId].playersPositions[client.positionInRoom-1] = data.position;
+    server.io.to(roomId).emit('playerMoved', server.rooms[roomId].playersPositions);
 }
 
 module.exports = {

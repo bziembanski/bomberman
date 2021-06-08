@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import { Container, Col, Row } from 'react-bootstrap';
-import { useHistory, Link } from 'react-router-dom';
+import { useLocation, Link } from 'react-router-dom';
 import MuteButton from '../components/MuteButton';
 import Game from '../game/Game';
 import PlayerInfo from '../components/PlayerInfo';
@@ -18,16 +18,27 @@ function __dev_test_time(timer, setTimer){
 }
 
 function GameView(props) {
-    const history = useHistory();
+    const location = useLocation();
     const [modalShow, setModalShow] = React.useState(false);
     const [win, setWin] = React.useState(false);
     const [timer, setTimer] = useState("180.0");
+    const [positionInRoom, setPosition] = useState(0);
+    const [loading, setLoading] = useState(true);
     const socket = props.socket;
+    const id = props.match.params.id
+
     useEffect(() => {
         socket.on("timer", timer => {
            setTimer(timer);
         });
     }, [timer]);
+
+    useEffect(()=>{
+        console.log(location);
+        setPosition(location.state.positionInRoom);
+        setLoading(false);
+    }, [location]);
+
     function timerClick(){
         socket.emit("timer", "");
         console.log("click");
@@ -37,7 +48,7 @@ function GameView(props) {
         <Container fluid className='root'>
             <Row style={{justifyContent: 'center'}}>
                 <Col xs={6} id='phaser-game'>
-                    <Game socket={socket}/>
+                    <Game positionInRoom={location.state.positionInRoom} roomId={id} socket={socket}/>
                 </Col>
                 <Col xs={{span: 3, offset: 1}}>
                     <Row className='game-topActions'>
