@@ -1,4 +1,5 @@
 # Bomberman
+<div style="text-align:center"><img src=https://raw.githubusercontent.com/bziembanski/bomberman/main/Bomberman%20-%20leaflet.png /></div>
 Bomberman to 2-4 osobowa gra przeglądarkowa. Gracz sterujący “Bombermanem” ma za zadanie rozmieszczać bomby na planszy tak, aby jak najszybciej wyeliminować swoich przeciwników. 
 Bomba zadaje obrażenia wszystkim graczom, którzy pozostaną w zasięgu jej rażenia. 
 Głównym celem gry jest pozostanie jednym żyjącym graczem na planszy. 
